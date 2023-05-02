@@ -1,0 +1,46 @@
+version: '3'
+x-log-config: &log-config
+  logging:
+    driver: json-file
+    options:
+      max-size: "50m"
+      max-file: "5"
+services:
+  # monero-lws-admin:
+  #     container_name: monero-lws-admin
+  #     build:
+  #       context: monero-lws-admin
+  #       dockerfile: Dockerfile
+  #     restart: unless-stopped
+  #     depends_on:
+  #       - monero-lws
+  #     environment:
+  #         NUXT_LWS_API_KEY: a0b03590ee822d76e4a62c5d02e6dac9a5302a67dcb2a82ba5f79687f412df08
+  #         NUXT_LWS_ADMIN_URL: http://127.0.0.1:8080
+  #     <<: *log-config
+  monero-lws:
+    container_name: monero-lws
+    build:
+      context: monero-lws
+      dockerfile: Dockerfile
+      args:
+        MONERO_BRANCH: release-v0.18
+        MONERO_COMMIT_HASH: 2f45d5c615492dffa456489d73543870e5a224ab
+        NPROC: 4
+    restart: unless-stopped
+    depends_on:
+      - monerod
+    command:
+      --scan-threads 4 --rest-threads 4 --rest-server http://0.0.0.0:8080 --admin-rest-server http://0.0.0.0:8081 --log-level 1 --daemon=tcp://monerod:18082 --sub=tcp://monerod:18083 --confirm-external-bind
+    <<: *log-config
+  monerod:
+    container_name: monerod
+    build:
+      context: docker-monero-node/dockerfiles
+      dockerfile: monero_nocompile
+    restart: unless-stopped
+    volumes:
+      - ~/.bitmonero:/srv/monerod
+    command:
+      monerod --data-dir /srv/monerod/ --p2p-bind-ip=0.0.0.0 --p2p-bind-port=18080 --rpc-bind-ip=0.0.0.0 --rpc-bind-port=18081 --zmq-rpc-bind-ip=0.0.0.0 --zmq-rpc-bind-port=18082 --zmq-pub tcp://0.0.0.0:18083 --rpc-restricted-bind-ip=0.0.0.0 --rpc-restricted-bind-port=18089 --non-interactive --confirm-external-bind --public-node
+    <<: *log-config

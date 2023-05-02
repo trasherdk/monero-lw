@@ -1,3 +1,5 @@
 monero-lws
 docker-monero-node
 .env
+
+node_modules

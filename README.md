@@ -13,3 +13,19 @@ Will be adding client side application to tie the whole thing together.
 * https://github.com/vtnerd/monero-lws/blob/feature/no_auth_admin/docs/administration.md
 * https://github.com/monero-project/meta/blob/master/api/lightwallet_rest.md
 * https://github.com/CryptoGrampy/monero-lws-admin
+
+## Notes
+
+```
+accept_requests: {"type": "import"|"create", "addresses":[...]}
+add_account: {"address": ..., "key": ...}
+list_accounts: {}
+list_requests: {}
+modify_account_status: {"status": "active"|"hidden"|"inactive", "addresses":[...]}
+reject_requests: {"type": "import"|"create", "addresses":[...]}
+rescan: {"height":..., "addresses":[...]}
+webhook_add: {"type":"tx-confirmation", "address":"...", "url":"...", ...} with optional fields:
+    token: A string to be returned when the webhook is triggered
+    payment_id: 16 hex characters representing a unique identifier for a transaction
+webhook_delete
+```

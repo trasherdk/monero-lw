@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "lws"
+version = "0.1.0"
+description = ""
+authors = ["lza_menace <lza_menace@protonmail.com>"]
+readme = "README.md"
+packages = [{include = "lws", from = "."}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+quart = "^0.18.3"
+peewee = "^3.15.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start = "lws.app:run"

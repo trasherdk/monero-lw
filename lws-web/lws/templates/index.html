@@ -1,0 +1,39 @@
+<script type="text/javascript">
+  const ws = new WebSocket(`ws://${location.host}/ws`);
+
+  fetch(`http://${location.host}/replay`)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data)
+      for(i = 0; i < data.length; i++) {
+        console.log(data[i])
+        const li = document.createElement("li");
+        li.appendChild(document.createTextNode(data[i].message));
+        document.getElementById("messages").appendChild(li);
+      }
+    })
+
+  ws.addEventListener('message', function (event) {
+    const li = document.createElement("li");
+    li.appendChild(document.createTextNode(event.data));
+    document.getElementById("messages").appendChild(li);
+  });
+
+  function send(event) {
+    const message = (new FormData(event.target)).get("message");
+    if (message) {
+      ws.send(message);
+    }
+    event.target.reset();
+    return false;
+  }
+
+</script>
+
+<div style="display: flex; height: 100%; flex-direction: column">
+  <ul id="messages" style="flex-grow: 1; list-style-type: none"></ul>
+  <form onsubmit="return send(event)">
+    <input type="text" name="message" minlength="1" />
+    <button type="submit">Send</button>
+  </form>
+</div>

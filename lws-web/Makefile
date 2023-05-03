@@ -8,3 +8,6 @@ run:
 
 clean:
 	rm -rf .venv poetry.lock
+
+shell:
+	.venv/bin/python3

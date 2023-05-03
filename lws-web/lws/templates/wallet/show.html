@@ -1,0 +1,10 @@
+<p>{{ wallet.name }}</p>
+<p>{{ wallet.description }}</p>
+<p>{{ wallet.date }}</p>
+<p>{{ wallet.restore_height }}</p>
+<p>{{ wallet.address }}</p>
+<pre>
+    {{ wallet.get_wallet_info() }}
+</pre>
+
+<a href="{{ url_for('wallet_rescan', id=wallet.id) }}"><button>rescan</button></a>

@@ -4,15 +4,30 @@ from peewee import *
 from playhouse.sqliteq import SqliteQueueDatabase
 
 
-db = SqliteQueueDatabase('chat.db')
+db = SqliteQueueDatabase('data/lws-web.db')
 
 
-class Message(Model):
-    message = CharField()
-    datestamp = DateTimeField(default=datetime.utcnow)
+class Admin(Model):
+    username = CharField()
+    password = CharField()
+    address = CharField()
+    view_key = CharField()
+    date = DateTimeField(default=datetime.utcnow)
 
     class Meta:
         database = db
 
 
-db.create_tables([Message])
+class Wallet(Model):
+    name = CharField()
+    description = TextField()
+    address = CharField()
+    view_key = CharField()
+    restore_height = IntegerField()
+    date = DateTimeField(default=datetime.utcnow)
+
+    class Meta:
+        database = db
+
+
+db.create_tables([Admin, Wallet])

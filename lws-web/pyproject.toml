@@ -10,6 +10,13 @@ packages = [{include = "lws", from = "."}]
 python = "^3.10"
 quart = "^0.18.3"
 peewee = "^3.15.3"
+quart-auth = "^0.8.0"
+quart-bcrypt = "^0.0.6"
+quart-session = "^2.0.0"
+requests = "^2.29.0"
+redis = "^4.4.0"
+monero = "^1.1.1"
+python-dotenv = "^1.0.0"
 
 
 [build-system]

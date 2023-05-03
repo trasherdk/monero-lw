@@ -1,0 +1,25 @@
+{% for message in get_flashed_messages() %}
+  <li>{{ message }}</li>
+{% endfor %}
+<br />
+<div id="setup">
+    <form method="post">
+        <label for="username">Username</label>
+        <input type="text" name="username" />
+        <label for="password">Password</label>
+        <input type="password" name="password" />
+        <label for="address">Address</label>
+        <input type="text" name="address" />
+        <label for="view_key">View Key</label>
+        <input type="text" name="view_key" />
+        <button type="submit">Send</button>
+    </form>
+</div>
+
+<style>
+    input {
+        display: block;
+        padding-bottom: .5em;
+        margin-bottom: 1em;
+    }
+</style>

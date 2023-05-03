@@ -1,0 +1,15 @@
+{% extends 'includes/base.html' %}
+
+{% block content %}
+<a class="button outline primary" href="/wallet/add">Add a Wallet</a>
+<div id="wallets" class="content">
+    {% for wallet in wallets %}
+        <p>{{ wallet.id }} - <a href="{{ url_for('wallet_show', id=wallet.id) }}">{{ wallet.name }}</a> - {{ wallet.description }} - {{ wallet.date }}</p>
+    {% endfor %}
+</div>
+<style>
+    .content {
+        padding-top: 2em;
+    }
+</style>
+{% endblock %}

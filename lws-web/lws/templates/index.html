@@ -1,10 +1,12 @@
 {% extends 'includes/base.html' %}
 
 {% block content %}
-{% if current_user.is_authenticated %}
-  <p>hi {{ current_user.username }}</p>
-{% else %}
-  <p>hi anon</p>
-{% endif %}
+<div id="dashboard">
+  <h1>LWS Web</h1>
+  <p>LWS Admin: {{ config.LWS_ADMIN_URL }}</p>
+  <p>LWS RPC: {{ config.LWS_URL }}</p>
+  <p>{{ wallets.count() }} wallet{% if wallets.count() > 1 %}s{% endif %} being tracked</p>
+  <a href="/wallets" class="button outline primary">Manage Wallets</a>
+</div>
 {% endblock %}
 

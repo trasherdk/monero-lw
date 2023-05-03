@@ -31,7 +31,12 @@ async def index():
     admin_exists = User.select().first()
     if not admin_exists:
         return redirect("/setup")
-    return await render_template("index.html")
+    wallets = Wallet.select().order_by(Wallet.date.desc())
+    return await render_template(
+        "index.html",
+        config=config,
+        wallets=wallets
+    )
 
 @app.route("/debug")
 async def debug():
@@ -126,7 +131,14 @@ async def setup():
     return await render_template("setup.html")
 
 
+@app.route("/wallets")
+@login_required
+async def wallets():
+    wallets = Wallet.select().order_by(Wallet.id.asc())
+    return await render_template("wallet/list.html", wallets=wallets)
+
 @app.route("/wallet/add", methods=["GET", "POST"])
+@login_required
 async def wallet_add():
     form = await request.form
     if form:

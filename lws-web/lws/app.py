@@ -2,7 +2,7 @@ import requests
 import monero.address
 from quart import Quart, render_template, redirect, request, flash, jsonify
 from quart_auth import (
-    AuthUser, AuthManager, login_required, login_user, current_user, Unauthorized
+    AuthUser, AuthManager, login_required, login_user, logout_user, current_user, Unauthorized
 )
 from quart_bcrypt import Bcrypt
 from quart_session import Session
@@ -74,6 +74,12 @@ async def login():
         return redirect("/")
     return await render_template("login.html")
 
+
+@app.route("/logout")
+async def logout():
+    if current_user.is_authenticated:
+        logout_user()
+    return redirect("/")
 
 @app.route("/setup", methods=["GET", "POST"])
 async def setup():

@@ -56,6 +56,11 @@ class Wallet(Model):
             return False
 
     def add_wallet_lws(self):
+        if self.check_wallet_lws() and self.added is False:
+            self.added = True
+            self.date_added = datetime.utcnow()
+            self.save()
+            return True
         endpoint = f"{config.LWS_ADMIN_URL}/add_account"
         data = {
             "auth": self.user.view_key, 

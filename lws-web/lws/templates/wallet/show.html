@@ -1,3 +1,6 @@
+{% extends 'includes/base.html' %}
+
+{% block content %}
 <p>{{ wallet.name }}</p>
 <p>{{ wallet.description }}</p>
 <p>{{ wallet.date }}</p>
@@ -8,3 +11,4 @@
 </pre>
 
 <a href="{{ url_for('wallet_rescan', id=wallet.id) }}"><button>rescan</button></a>
+{% endblock %}

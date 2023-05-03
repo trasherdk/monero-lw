@@ -1,7 +1,6 @@
-{% for message in get_flashed_messages() %}
-  <li>{{ message }}</li>
-{% endfor %}
-<br />
+{% extends 'includes/base.html' %}
+
+{% block content %}
 <div id="wallet_add">
     <form method="post">
         <label for="name">Name</label>
@@ -17,7 +16,6 @@
         <button type="submit">Send</button>
     </form>
 </div>
-
 <style>
     input {
         display: block;
@@ -25,4 +23,8 @@
         margin-bottom: 1em;
     }
 </style>
+{% endblock %}
+
+
+
 

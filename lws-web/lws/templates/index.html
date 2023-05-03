@@ -1,5 +1,10 @@
+{% extends 'includes/base.html' %}
+
+{% block content %}
 {% if current_user.is_authenticated %}
   <p>hi {{ current_user.username }}</p>
 {% else %}
   <p>hi anon</p>
 {% endif %}
+{% endblock %}
+

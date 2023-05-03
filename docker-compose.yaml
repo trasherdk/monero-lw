@@ -6,18 +6,20 @@ x-log-config: &log-config
       max-size: "50m"
       max-file: "5"
 services:
-  # monero-lws-admin:
-  #     container_name: monero-lws-admin
-  #     build:
-  #       context: monero-lws-admin
-  #       dockerfile: Dockerfile
-  #     restart: unless-stopped
-  #     depends_on:
-  #       - monero-lws
-  #     environment:
-  #         NUXT_LWS_API_KEY: a0b03590ee822d76e4a62c5d02e6dac9a5302a67dcb2a82ba5f79687f412df08
-  #         NUXT_LWS_ADMIN_URL: http://127.0.0.1:8080
-  #     <<: *log-config
+  lws-web:
+      container_name: lws-web
+      build:
+        context: lws-web
+        dockerfile: Dockerfile
+      restart: unless-stopped
+      depends_on:
+        - monero-lws
+      environment:
+          NUXT_LWS_API_KEY: ayoo
+          NUXT_LWS_ADMIN_URL: http://127.0.0.1:8080
+      ports:
+        - 127.0.0.1:5000:5000
+      <<: *log-config
   monero-lws:
     container_name: monero-lws
     build:

@@ -1,5 +1,6 @@
 import requests
 import monero.address
+import monero.seed
 from quart import Quart, render_template, redirect, request, flash, jsonify
 from quart_auth import (
     AuthUser, AuthManager, login_required, login_user, logout_user, current_user, Unauthorized
@@ -38,18 +39,30 @@ async def index():
         wallets=wallets
     )
 
-@app.route("/debug")
-async def debug():
-    admin = User.get(1)
-    data = {
-        "auth": admin.view_key,
-        "params": {
-            "height": 2836540,
-            "addresses": ["46pSfwbyukuduh13pqUo7R6S5W8Uk2EnqcKuPg4T9KaoHVSFQ5Qb33nBEN6xVxpeKG1TgYoxo4GxhJm2JFYN1sHJBEH1MwY"]
-        }
-    }
-    r = requests.post("http://127.0.0.1:8081/rescan", json=data)
-    return jsonify(r.json())
+
+@app.route("/utils")
+async def utils():
+    return await render_template("utils/index.html")
+
+
+@app.route("/utils/mnemonic", methods=["GET", "POST"])
+async def utils_mnemonic():
+    form = await request.form
+    if form:
+        seed = form.get("seed", "")
+        if not seed:
+            await flash("must provide mnemonic seed")
+            return redirect("/utils/mnemonic")
+        try:
+            s = monero.seed.Seed(seed)
+            return await render_template(
+                "utils/mnemonic.html",
+                results=s
+            )
+        except Exception as e:
+            print(f"failed to read mnemonic seed: {e}")
+            await flash("failed to parse mnemonic seed")
+    return await render_template("utils/mnemonic.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -82,7 +95,7 @@ async def login():
 
 @app.route("/logout")
 async def logout():
-    if current_user.is_authenticated:
+    if await current_user.is_authenticated:
         logout_user()
     return redirect("/")
 

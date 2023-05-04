@@ -2,7 +2,7 @@
 
 {% block content %}
 <div id="dashboard">
-  <h1>LWS Web</h1>
+  <h1>LWS Web Admin</h1>
   <p>LWS Admin: {{ config.LWS_ADMIN_URL }}</p>
   <p>LWS RPC: {{ config.LWS_URL }}</p>
   <p>{{ wallets.count() }} wallet{% if wallets.count() > 1 %}s{% endif %} being tracked</p>

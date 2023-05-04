@@ -11,6 +11,7 @@
 <p>Received: {{ info['total_received'] }}</p>
 <p>Sent: {{ info['total_sent'] }}</p>
 <p>Scanned Height: {{ info['scanned_height'] }} ({{ info['blockchain_height'] - info['scanned_height'] }} blocks away from top)</p>
+<p>Chain Height: {{ info['blockchain_height'] }}</p>
 <p>Spent Outputs: {{ info['spent_outputs'] | length }}</p>
 <!-- 
     {

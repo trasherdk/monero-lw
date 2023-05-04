@@ -1,0 +1,31 @@
+{% extends 'includes/base.html' %}
+
+{% block content %}
+<div>
+    <h1>Parse Mnemonic Seed</h1>
+    <form method="post">
+        <label for="seed">25 Word Seed</label>
+        <input type="password" name="seed" />
+        <button type="submit">Send</button>
+    </form>
+</div>
+<style>
+    input {
+        display: block;
+        padding-bottom: .5em;
+        margin-bottom: 1em;
+    }
+</style>
+{% if results %}
+    <h2>Results</h2>
+    <p>Public Address: <span class="key">{{ results.public_address() }}</span></p>
+    <p>Public Spend Key: <span class="key">{{ results.public_spend_key() }}</span></p>
+    <p>Public View Key: <span class="key">{{ results.public_view_key() }}</span></p>
+    <p>Secret Spend Key: <span class="key">{{ results.secret_spend_key() }}</span></p>
+    <p>Secret View Key: <span class="key">{{ results.secret_view_key() }}</span></p>
+{% endif %}
+{% endblock %}
+
+
+
+

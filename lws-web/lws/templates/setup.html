@@ -2,16 +2,18 @@
 
 {% block content %}
 <div id="setup">
+    <h1>Setup your Monero light wallet</h1>
+    <p class="subtext">The LWS address and view key must be generated from <i>monero-lws</i> using the initialization scripts.</p>
     <form method="post">
         <label for="username">Username</label>
         <input type="text" name="username" />
         <label for="password">Password</label>
         <input type="password" name="password" />
-        <label for="address">Address</label>
+        <label for="address">LWS Address</label>
         <input type="text" name="address" />
-        <label for="view_key">View Key</label>
+        <label for="view_key">LWS View Key</label>
         <input type="text" name="view_key" />
-        <button type="submit">Send</button>
+        <button type="submit">Submit</button>
     </form>
 </div>
 
@@ -20,6 +22,11 @@
         display: block;
         padding-bottom: .5em;
         margin-bottom: 1em;
+    }
+    .subtext {
+        font-size: 1em;
+        display: block;
+        color: #666;
     }
 </style>
 {% endblock %}

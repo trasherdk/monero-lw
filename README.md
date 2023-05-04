@@ -6,7 +6,44 @@ Runs a private `monero-lws` service in the background with an API layer above th
 
 Will be adding client side application to tie the whole thing together.
 
-## Links
+## Setup
+
+Works on Linux, built on Ubuntu 22.
+
+1. Install packages
+2. Clone the repo
+3. Clone other projects
+4. Build container images
+5. Run containers
+6. Initialize admin - note address and key
+
+```
+# 1
+sudo apt install docker.io docker-compose python3 python3-venv make
+
+# 2
+git clone https://git.cloud.lzahq.tech/nerodev/monero-lw && cd monero-lw
+
+# 3
+git clone --recursive --branch develop https://github.com/vtnerd/monero-lws
+git clone https://github.com/lalanza808/docker-monero-node
+
+# 4
+docker-compose build
+
+# 5
+docker-compose up -d
+
+# 6
+docker exec -ti monero-lws monero-lws-admin create_admin
+```
+
+Proceed to setup your user at http://127.0.0.1:5000/setup - use the LWS admin address and key from `# 6`.
+
+Start adding wallets.
+
+
+### Links
 
 * https://github.com/moneroexamples/openmonero
 * https://github.com/vtnerd/monero-lws/tree/feature/no_auth_admin
@@ -18,7 +55,7 @@ Will be adding client side application to tie the whole thing together.
 * https://github.com/mymonero/mymonero-utils/tree/master/packages/mymonero-monero-client
 * https://github.com/mymonero/mymonero-utils/tree/master/packages/mymonero-wallet-manager
 
-## Notes
+### Notes
 
 ```
 accept_requests: {"type": "import"|"create", "addresses":[...]}

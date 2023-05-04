@@ -14,6 +14,7 @@ RUN adduser \
    lws-web
 COPY . .
 RUN chown -R lws-web:lws-web .
+USER lws-web
 RUN python3 -m venv .venv
 RUN .venv/bin/pip install poetry
 RUN .venv/bin/poetry install

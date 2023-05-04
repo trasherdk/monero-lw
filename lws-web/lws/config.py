@@ -2,7 +2,7 @@ from os import environ as env
 from secrets import token_urlsafe
 from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
 HOST = env.get("HOST", "127.0.0.1")
 TEMPLATES_AUTO_RELOAD = True

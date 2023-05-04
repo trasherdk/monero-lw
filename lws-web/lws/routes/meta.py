@@ -2,8 +2,8 @@ import monero.seed
 from quart import Blueprint, redirect, request, flash, render_template
 from quart_auth import login_required
 
-from lws.factory import bcrypt
 from lws.models import Wallet, User
+from lws.helpers import LWS
 from lws import config
 
 
@@ -12,14 +12,16 @@ bp = Blueprint('meta', 'meta')
 @bp.route("/")
 @login_required
 async def index():
-    admin_exists = User.select().first()
-    if not admin_exists:
+    admin = User.select().first()
+    if not admin:
         return redirect("/setup")
     wallets = Wallet.select().order_by(Wallet.date.desc())
+    lws = LWS(admin.view_key)
     return await render_template(
         "index.html",
         config=config,
-        wallets=wallets
+        wallets=wallets,
+        lws_accounts=lws.list_accounts()
     )
 
 

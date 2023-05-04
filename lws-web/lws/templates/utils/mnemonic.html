@@ -1,21 +1,13 @@
 {% extends 'includes/base.html' %}
 
 {% block content %}
-<div>
-    <h1>Parse Mnemonic Seed</h1>
-    <form method="post">
-        <label for="seed">25 Word Seed</label>
-        <input type="password" name="seed" />
-        <button type="submit">Send</button>
-    </form>
-</div>
-<style>
-    input {
-        display: block;
-        padding-bottom: .5em;
-        margin-bottom: 1em;
-    }
-</style>
+<a href="/utils">Go Back</a>
+<h1>Parse Mnemonic Seed</h1>
+<form method="post">
+    <label for="seed">25 Word Seed</label>
+    <input type="password" name="seed" />
+    <button type="submit">Send</button>
+</form>
 {% if results %}
     <h2>Results</h2>
     <p>Public Address: <span class="key">{{ results.public_address() }}</span></p>

@@ -1,21 +1,12 @@
 {% extends 'includes/base.html' %}
 
 {% block content %}
-<div id="login">
-    <form method="post">
-        <label for="username">Username</label>
-        <input type="text" name="username" />
-        <label for="password">Password</label>
-        <input type="password" name="password" />
-        <button type="submit">Send</button>
-    </form>
-</div>
-
-<style>
-    input {
-        display: block;
-        padding-bottom: .5em;
-        margin-bottom: 1em;
-    }
-</style>
+<h1>Login</h1>
+<form method="post">
+    <label for="username">Username</label>
+    <input type="text" name="username" />
+    <label for="password">Password</label>
+    <input type="password" name="password" />
+    <button type="submit">Send</button>
+</form>
 {% endblock %}

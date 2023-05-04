@@ -1,12 +1,11 @@
 {% extends 'includes/base.html' %}
 
 {% block content %}
-<div id="dashboard">
-  <h1>LWS Web Admin</h1>
-  <p>LWS Admin: {{ config.LWS_ADMIN_URL }}</p>
-  <p>LWS RPC: {{ config.LWS_URL }}</p>
-  <p>{{ wallets.count() }} wallet{% if wallets.count() > 1 %}s{% endif %} being tracked</p>
-  <a href="{{ url_for('wallet.list') }}" class="button outline primary">Manage Wallets</a>
-</div>
+<h1>LWS Web Admin</h1>
+<a href="{{ url_for('wallet.list') }}" class="button outline primary">Manage Wallets</a>
+<hr>
+<p>LWS Admin: {{ config.LWS_ADMIN_URL }}</p>
+<p>LWS RPC: {{ config.LWS_URL }}</p>
+<p>{{ wallets.count() }} wallet{% if wallets.count() > 1 %}s{% endif %} being scanned by LWS</p>
 {% endblock %}
 

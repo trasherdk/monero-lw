@@ -33,6 +33,9 @@ async def login():
             await flash("invalid password")
             return redirect("/login")
         login_user(AuthUser(user.id))
+        nxt = request.args.get("next")
+        if nxt:
+            return redirect(nxt)
         return redirect("/")
     return await render_template("login.html")
 

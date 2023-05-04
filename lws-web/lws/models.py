@@ -81,6 +81,26 @@ class Wallet(Model):
             print(f"Failed to add wallet {self.address}: {e}")
             return False
     
+    def disable_wallet_lws(self):
+        endpoint = f"{config.LWS_ADMIN_URL}/modify_account_status"
+        data = {
+            "auth": self.user.view_key, 
+            "params": {
+                "addresses": [self.address], 
+                "status": "inactive"
+            }
+        }
+        try:
+            req = requests.post(endpoint, json=data, timeout=5)
+            req.raise_for_status()
+            if req.ok:
+                return True
+            return False
+        except Exception as e:
+            print(f"Failed to add wallet {self.address}: {e}")
+            return False
+
+    
     def get_wallet_info(self):
         endpoint = f"{config.LWS_URL}/get_address_info"
         data = {
@@ -97,6 +117,22 @@ class Wallet(Model):
             print(f"Failed to get wallet info {self.address}: {e}")
             return False
     
+    def get_wallet_txes(self):
+        endpoint = f"{config.LWS_URL}/get_address_txs"
+        data = {
+            "address": self.address, 
+            "view_key": self.view_key
+        }
+        try:
+            req = requests.post(endpoint, json=data, timeout=5)
+            req.raise_for_status()
+            if req.ok:
+                return req.json()
+            return {}
+        except Exception as e:
+            print(f"Failed to get wallet info {self.address}: {e}")
+            return False
+        
     def rescan(self):
         endpoint = f"{config.LWS_ADMIN_URL}/rescan"
         data = {

@@ -1,4 +1,4 @@
-from quart import Quart, redirect
+from quart import Quart, redirect, request
 from quart_auth import (
     AuthManager, Unauthorized
 )
@@ -33,7 +33,7 @@ def create_app():
 
     @app.errorhandler(Unauthorized)
     async def redirect_to_login(*_):
-        return redirect("/login")
+        return redirect(f"/login?next={request.path}")
     return app
     
 bcrypt = Bcrypt(create_app())

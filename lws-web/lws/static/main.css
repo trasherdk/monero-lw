@@ -3,3 +3,24 @@
     font-size: .9em;
     user-select: all;
 }
+
+.smol {
+    font-size: .8em;
+    color: #666;
+}
+
+.content {
+    padding-top: 2em;
+}
+
+.subtext {
+    font-size: 1em;
+    display: block;
+    color: #666;
+}
+
+input {
+    display: block;
+    padding-bottom: .5em;
+    margin-bottom: 1em;
+}

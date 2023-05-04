@@ -2,7 +2,7 @@ import monero.address
 from quart import Blueprint, render_template, request, flash, redirect
 from quart_auth import login_required, current_user
 
-from lws.models import Wallet
+from lws.models import Wallet, User
 
 
 bp = Blueprint('wallet', 'wallet')
@@ -26,10 +26,10 @@ async def add():
         restore_height = form.get("restore_height", 0)
         valid_view_key = False
         if not address:
-            await flash("must provide an LWS admin address")
+            await flash("must provide an address")
             return redirect("/wallet/add")
         if not view_key:
-            await flash("must provide an LWS admin view_key")
+            await flash("must provide a view_key")
             return redirect("/wallet/add")
         try:
             _a = monero.address.Address(address)
@@ -52,7 +52,7 @@ async def add():
             wallet.name = f"wallet-{id}"
         wallet.add_wallet_lws()
         await flash("wallet added")
-        return redirect(f"/wallet/{wallet.id}")
+        return redirect(f"/wallet/{wallet.id}/rescan")
     return await render_template("wallet/add.html")
 
 
@@ -62,7 +62,7 @@ async def show(id):
     wallet = Wallet.select().where(Wallet.id == id).first()
     if not wallet:
         await flash("wallet does not exist")
-        return redirect("/")
+        return redirect("/wallets")
     return await render_template(
         "wallet/show.html", 
         wallet=wallet
@@ -74,21 +74,18 @@ async def rescan(id):
     wallet = Wallet.select().where(Wallet.id == id).first()
     if not wallet:
         await flash("wallet does not exist")
-        return redirect("/")
+        return redirect("/wallets")
     wallet.rescan()
     return redirect(f"/wallet/{id}")
 
-# / - redirect to /setup if user not setup, to /login if not authenticated
-# /setup - first time setup user account, encrypted session
-# /login - log into encrypted session
-# /wallet/add - add a wallet to LWS
-# /wallet/:id - show wallet details (balances, txes, etc)
-# /wallet/:id/remove - remove a wallet from LWS
-# /wallet/:id/resync - resync wallet
 
-# get_address_info
-# get_address_txs
-# get_random_outs
-# get_unspent_outs
-# import_request
-# submit_raw_tx
+@bp.route("/wallet/<id>/disable")
+@login_required
+async def disable(id):
+    wallet = Wallet.select().where(Wallet.id == id).first()
+    if not wallet:
+        await flash("wallet does not exist")
+        return redirect("/wallets")
+    wallet.disable_wallet_lws()
+    return redirect(f"/wallet/{id}")
+

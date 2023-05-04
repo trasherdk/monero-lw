@@ -1,5 +1,3 @@
 monero-lws
 docker-monero-node
 .env
-data
-node_modules

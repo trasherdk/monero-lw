@@ -13,18 +13,6 @@ files = [
 ]
 
 [[package]]
-name = "async-timeout"
-version = "4.0.2"
-description = "Timeout context manager for asyncio programs"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-files = [
-    {file = "async-timeout-4.0.2.tar.gz", hash = "sha256:2163e1640ddb52b7a8c80d0a67a08587e5d245cc9c553a74a847056bc2976b15"},
-    {file = "async_timeout-4.0.2-py3-none-any.whl", hash = "sha256:8ca1e4fcf50d07413d66d1a5e416e42cfdf5851c981d679a09851a6853383b3c"},
-]
-
-[[package]]
 name = "bcrypt"
 version = "3.2.2"
 description = "Modern password hashing for your software and your servers"
@@ -669,44 +657,6 @@ bcrypt = ">=3.2.2,<4.0.0"
 quart = ">=0.18.0,<0.19.0"
 
 [[package]]
-name = "quart-session"
-version = "2.0.0"
-description = "Adds server-side session support to your Quart application"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "Quart-Session-2.0.0.tar.gz", hash = "sha256:2bbc197855f7307938c4fe451585240fa0cf06afee00c826685a55641ec91f45"},
-]
-
-[package.dependencies]
-Quart = ">=0.10.0"
-
-[package.extras]
-dotenv = ["python-dotenv"]
-mongodb = ["motor (>=2.5.1)"]
-redis = ["redis (>=4.4.0)"]
-
-[[package]]
-name = "redis"
-version = "4.5.4"
-description = "Python client for Redis database and key-value store"
-category = "main"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "redis-4.5.4-py3-none-any.whl", hash = "sha256:2c19e6767c474f2e85167909061d525ed65bea9301c0770bb151e041b7ac89a2"},
-    {file = "redis-4.5.4.tar.gz", hash = "sha256:73ec35da4da267d6847e47f68730fdd5f62e2ca69e3ef5885c6a78a9374c3893"},
-]
-
-[package.dependencies]
-async-timeout = {version = ">=4.0.2", markers = "python_version <= \"3.11.2\""}
-
-[package.extras]
-hiredis = ["hiredis (>=1.0.0)"]
-ocsp = ["cryptography (>=36.0.1)", "pyopenssl (==20.0.1)", "requests (>=2.26.0)"]
-
-[[package]]
 name = "requests"
 version = "2.30.0"
 description = "Python HTTP for Humans."
@@ -805,4 +755,4 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "5465cc294e32dd3f725c0cd72f6d6b404688e7508ac6f95783d0f9d71a8e55dc"
+content-hash = "5300fb61562523b1601e989618fadac9f121d6531a43208ecf56b6e4dc02a62c"

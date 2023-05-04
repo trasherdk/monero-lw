@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "lws"
+name = "lws-web"
 version = "0.1.0"
 description = ""
 authors = ["lza_menace <lza_menace@protonmail.com>"]
@@ -12,9 +12,7 @@ quart = "^0.18.3"
 peewee = "^3.15.3"
 quart-auth = "^0.8.0"
 quart-bcrypt = "^0.0.6"
-quart-session = "^2.0.0"
 requests = "^2.29.0"
-redis = "^4.4.0"
 monero = "^1.1.1"
 python-dotenv = "^1.0.0"
 

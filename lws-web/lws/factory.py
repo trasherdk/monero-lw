@@ -3,22 +3,17 @@ from quart_auth import (
     AuthManager, Unauthorized
 )
 from quart_bcrypt import Bcrypt
-from quart_session import Session
 
 from lws import config
 
 
 def create_app():
     app = Quart(__name__)
-    app.config["TEMPLATES_AUTO_RELOAD"] = config.TEMPLATES_AUTO_RELOAD
-    app.config["DEBUG"] = config.DEBUG
-    app.config["QUART_ENV"] = config.QUART_ENV
     app.config["SECRET_KEY"] = config.SECRET_KEY
-    app.config["SESSION_URI"] = config.SESSION_URI
-    app.config["SESSION_TYPE"] = config.SESSION_TYPE
-    app.config["SESSION_PROTECTION"] = config.SESSION_PROTECTION
+    app.config["DEBUG"] = config.DEBUG
+    app.config["TEMPLATES_AUTO_RELOAD"] = config.TEMPLATES_AUTO_RELOAD
+    app.config["QUART_ENV"] = config.QUART_ENV
     app.config["QUART_AUTH_DURATION"] = config.QUART_AUTH_DURATION
-    Session(app)
     AuthManager(app)
     bcrypt = Bcrypt(app)
     

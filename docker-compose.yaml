@@ -8,26 +8,22 @@ x-log-config: &log-config
 volumes:
   lws:
 services:
-  # lws-web:
-  #     container_name: lws-web
-  #     build:
-  #       context: lws-web
-  #       dockerfile: Dockerfile
-  #     restart: unless-stopped
-  #     depends_on:
-  #       - monero-lws
-  #     environment:
-  #         NUXT_LWS_API_KEY: ayoo
-  #         NUXT_LWS_ADMIN_URL: http://127.0.0.1:8080
-  #     ports:
-  #       - 127.0.0.1:5000:5000
-  #     <<: *log-config
-  redis:
-    image: redis:latest
-    container_name: monero-lws-cache
-    restart: always
+  lws-web:
+    container_name: lws-web
+    build:
+      context: lws-web
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - monero-lws
+    environment:
+        LWS_URL: http://127.0.0.1:8080
+        LWS_ADMIN_URL: http://127.0.0.1:8081
     ports:
-      - 127.0.0.1:6379:6379
+      - 127.0.0.1:5000:5000
+    command:
+      ./.venv/bin/poetry run start
+    <<: *log-config
   monero-lws:
     container_name: monero-lws
     build:

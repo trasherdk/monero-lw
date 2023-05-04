@@ -6,7 +6,7 @@ from peewee import *
 from lws import config
 
 
-db = SqliteDatabase('data/lws.db')
+db = SqliteDatabase('lws.db')
 
 
 class User(Model):

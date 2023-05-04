@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+HOST = env.get("HOST", "127.0.0.1")
 TEMPLATES_AUTO_RELOAD = True
 DEBUG = 1 == env.get("DEBUG", 1)
 QUART_ENV = env.get("QUART_ENV", "development")

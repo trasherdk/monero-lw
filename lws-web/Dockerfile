@@ -17,5 +17,3 @@ RUN chown -R lws-web:lws-web .
 RUN python3 -m venv .venv
 RUN .venv/bin/pip install poetry
 RUN .venv/bin/poetry install
-
-CMD ".venv/bin/poetry run start"

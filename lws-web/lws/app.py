@@ -1,7 +1,4 @@
 from lws.factory import create_app
+from lws import config
 
-
-app = create_app()
-
-if __name__ == '__main__':
-    app.run()
+run = create_app().run(host=config.HOST)

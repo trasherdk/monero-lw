@@ -2,12 +2,11 @@ from datetime import datetime
 
 import requests
 from peewee import *
-from playhouse.sqliteq import SqliteQueueDatabase
 
 from lws import config
 
 
-db = SqliteQueueDatabase('data/lws-web.db')
+db = SqliteDatabase('data/lws.db')
 
 
 class User(Model):
@@ -111,7 +110,7 @@ class Wallet(Model):
             req = requests.post(endpoint, json=data, timeout=5)
             req.raise_for_status()
             if req.ok:
-                print(r.content)
+                print(req.content)
                 return True
             return False
         except Exception as e:

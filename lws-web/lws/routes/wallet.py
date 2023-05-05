@@ -18,13 +18,6 @@ bp = Blueprint('wallet', 'wallet')
 # reject_requests: {"type": "import"|"create", "addresses":[...]}
 # rescan: {"height":..., "addresses":[...]}
 
-
-@bp.route("/wallets")
-@login_required
-async def list():
-    wallets = Wallet.select().order_by(Wallet.id.asc())
-    return await render_template("wallet/list.html", wallets=wallets)
-
 @bp.route("/wallet/add", methods=["GET", "POST"])
 @login_required
 async def add():
@@ -73,7 +66,7 @@ async def show(id):
     wallet = Wallet.select().where(Wallet.id == id).first()
     if not wallet:
         await flash("wallet does not exist")
-        return redirect("/wallets")
+        return redirect("/")
     return await render_template(
         "wallet/show.html", 
         wallet=wallet
@@ -85,7 +78,7 @@ async def rescan(id):
     wallet = Wallet.select().where(Wallet.id == id).first()
     if not wallet:
         await flash("wallet does not exist")
-        return redirect("/wallets")
+        return redirect("/")
     wallet.rescan()
     return redirect(f"/wallet/{id}")
 
@@ -96,7 +89,18 @@ async def disable(id):
     wallet = Wallet.select().where(Wallet.id == id).first()
     if not wallet:
         await flash("wallet does not exist")
-        return redirect("/wallets")
-    wallet.disable_wallet_lws()
+        return redirect("/")
+    wallet.set_active(False)
+    return redirect(f"/wallet/{id}")
+
+
+@bp.route("/wallet/<id>/enable")
+@login_required
+async def enable(id):
+    wallet = Wallet.select().where(Wallet.id == id).first()
+    if not wallet:
+        await flash("wallet does not exist")
+        return redirect("/")
+    wallet.set_active(True)
     return redirect(f"/wallet/{id}")
 

@@ -1,7 +1,7 @@
 {% extends 'includes/base.html' %}
 
 {% block content %}
-<a href="/wallets">Go Back</a>
+<a href="/">Go Back</a>
 <h1>Add a Wallet</h1>
 <form method="post">
     <label for="name">Name</label>
@@ -9,7 +9,7 @@
     <label for="description">Description</label>
     <input type="text" name="description" />
     <label for="address">Address</label>
-    <input type="text" name="address" />
+    <input type="text" name="address" value="{{ request.args.get('address', '') }}" />
     <label for="view_key">View Key</label>
     <input type="text" name="view_key" />
     <label for="restore_height">Restore Height</label>

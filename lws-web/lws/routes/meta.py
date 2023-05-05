@@ -7,18 +7,26 @@ from lws.helpers import LWS
 from lws import config
 
 
-bp = Blueprint('meta', 'meta')
+bp = Blueprint("meta", "meta")
 
 @bp.route("/")
 @login_required
 async def index():
-    wallets = Wallet.select().order_by(Wallet.date.desc())
+    admin = User.select().first()
     lws = LWS(admin.view_key)
+    accounts = lws.list_accounts()
+    data = {}
+    for status in accounts:
+        if status == "hidden":
+            continue
+        for account in accounts[status]:
+            account["wallet"] = Wallet.select().where(Wallet.address ** account["address"]).first()
+            account["status"] = status
+            data[account["address"]] = account
     return await render_template(
         "index.html",
         config=config,
-        wallets=wallets,
-        lws_accounts=lws.list_accounts()
+        data=data
     )
 
 

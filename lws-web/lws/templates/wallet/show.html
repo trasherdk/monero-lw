@@ -1,7 +1,7 @@
 {% extends 'includes/base.html' %}
 
 {% block content %}
-<a href="/wallets">Go Back</a>
+<a href="/">Go Back</a>
 {% set info = wallet.get_wallet_info() %}
 <h1>{{ wallet.name }}</h1>
 <h5>{{ wallet.description }}</h5>
@@ -11,11 +11,17 @@
 <p>Scanned Height: {{ info['scanned_height'] }} <span class="smol">({{ info['blockchain_height'] - info['scanned_height'] }} blocks away from top)</span></p>
 <p>Chain Height: {{ info['blockchain_height'] }}</p>
 <p>Spent Outputs: {{ info['spent_outputs'] | length }}</p>
+{% if wallet.is_active() %}
+    <p>Status: active</p>
+{% else %}
+    <p>Status: inactive</p>
+{% endif %}
+
 
 <a href="{{ url_for('wallet.rescan', id=wallet.id) }}" class="button dark outline">rescan</a>
-{% if request.args.get('disable') %}
-    <a href="{{ url_for('wallet.disable', id=wallet.id) }}" class="button error">are you sure?</a>
+{% if wallet.is_active() %}
+    <a href="{{ url_for('wallet.disable', id=wallet.id) }}" class="button error">disable</a>
 {% else %}
-    <a href="?disable=true" class="button error">disable</a>
+    <a href="{{ url_for('wallet.enable', id=wallet.id) }}" class="button primary">enable</a>
 {% endif %}
 {% endblock %}

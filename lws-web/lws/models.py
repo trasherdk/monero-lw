@@ -31,6 +31,28 @@ class Wallet(Model):
     date_added = DateTimeField(null=True)
     user = ForeignKeyField(User, backref="wallets")
 
+    def is_active(self):
+        endpoint = f"{config.LWS_ADMIN_URL}/list_accounts"
+        data = {
+            "auth": self.user.view_key, 
+            "params": {}
+        }
+        try:
+            req = requests.post(endpoint, json=data, timeout=5)
+            req.raise_for_status()
+            if req.ok:
+                res = req.json()
+                for _status in res:
+                    for _wallet in res[_status]:
+                        if _wallet["address"] == self.address:
+                            if _status == "active":
+                                return True
+                return False
+            return False
+        except Exception as e:
+            print(f"Failed to list wallets: {e}")
+            return False
+
     def check_wallet_lws(self):
         endpoint = f"{config.LWS_ADMIN_URL}/list_accounts"
         data = {
@@ -81,7 +103,31 @@ class Wallet(Model):
             print(f"Failed to add wallet {self.address}: {e}")
             return False
     
-    def disable_wallet_lws(self):
+    def set_active(self, status):
+        endpoint = f"{config.LWS_ADMIN_URL}/modify_account_status"
+        _status = ""
+        if status:
+            _status = "active"
+        else:
+            _status = "inactive"
+        data = {
+            "auth": self.user.view_key, 
+            "params": {
+                "addresses": [self.address], 
+                "status": _status
+            }
+        }
+        try:
+            req = requests.post(endpoint, json=data, timeout=5)
+            req.raise_for_status()
+            if req.ok:
+                return True
+            return False
+        except Exception as e:
+            print(f"Failed to add wallet {self.address}: {e}")
+            return False
+
+    def enable_wallet_lws(self):
         endpoint = f"{config.LWS_ADMIN_URL}/modify_account_status"
         data = {
             "auth": self.user.view_key, 
@@ -99,7 +145,6 @@ class Wallet(Model):
         except Exception as e:
             print(f"Failed to add wallet {self.address}: {e}")
             return False
-
     
     def get_wallet_info(self):
         endpoint = f"{config.LWS_URL}/get_address_info"

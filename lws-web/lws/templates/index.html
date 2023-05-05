@@ -2,32 +2,47 @@
 
 {% block content %}
 <h1>LWS Web Admin</h1>
-<a href="{{ url_for('wallet.list') }}" class="button outline primary">Manage Wallets</a>
-<hr>
 <p>LWS Admin: {{ config.LWS_ADMIN_URL }}</p>
 <p>LWS RPC: {{ config.LWS_URL }}</p>
-<h3>Active Accounts</h3>
+<h3>Accounts</h3>
+<a href="/wallet/add" class="button outline primary">Add Wallet</a>
 <table class="striped">
-    <thead>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Wallet</th>
+      <th>Address</th>
+      <th>Description</th>
+      <th>Height</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for address in data %}
+      {% set _data = data[address] %}
       <tr>
-        <th>Status</th>
-        <th>Address</th>
-        <th>Height</th>
+        <td>
+          <button class="button {% if _data['status'] == 'active' %}success{% else %}error{% endif %}">
+            {{ _data['status'] | upper }}
+          </button>
+        </td>
+        <td>
+          {% if _data['wallet'] %}
+            <a href="/wallet/{{ data[address]['wallet'].id }}">{{ data[address]['wallet'].name }}</a>
+          {% else %}
+          <a href="/wallet/add?address={{ address }}">add</a>
+          {% endif %}
+        </td>
+        <td>{{ address | shorten }}</td>
+        <td>
+          {% if _data['wallet'] %}
+            {{ _data['wallet'].description or "-" }}
+          {% else %}
+            -
+          {% endif %}
+        </td>
+        <td>{{ data[address]['scan_height'] }}</td>
       </tr>
-    </thead>
-    <tbody>
-        {% for a in lws_accounts %}
-            {% if a != 'hidden' %}
-                {% for acc in lws_accounts[a] %}
-                    <tr>
-                        <td>{{ a | upper }}</td>
-                        <td>{{ acc['address'] | shorten }}</td>
-                        <td>{{ acc['scan_height'] }}</td>
-                    </tr>
-                {% endfor %}
-            {% endif %}
-        {% endfor %}
-    </tbody>
-  </table>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
-

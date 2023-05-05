@@ -52,7 +52,7 @@ services:
     volumes:
       - lws:/home/monero-lws/.bitmonero/light_wallet_server
     command:
-      --scan-threads 4 --rest-threads 4 --rest-server http://0.0.0.0:8080 --admin-rest-server http://0.0.0.0:8081 --log-level 1 --daemon=tcp://monerod:18082 --sub=tcp://monerod:18083 --confirm-external-bind
+      --scan-threads 4 --rest-threads 4 --rest-server http://0.0.0.0:8080 --admin-rest-server http://0.0.0.0:8081 --log-level 1 --daemon=tcp://monerod:18082 --sub=tcp://monerod:18083 --confirm-external-bind --access-control-origin "*"
     <<: *log-config
   monerod:
     container_name: monerod

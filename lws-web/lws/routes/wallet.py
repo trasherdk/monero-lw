@@ -8,6 +8,17 @@ from lws.models import Wallet, User
 bp = Blueprint('wallet', 'wallet')
 
 
+# @bp.route("/")
+
+# accept_requests: {"type": "import"|"create", "addresses":[...]}
+# add_account: {"address": ..., "key": ...}
+# list_accounts: {}
+# list_requests: {}
+# modify_account_status: {"status": "active"|"hidden"|"inactive", "addresses":[...]}
+# reject_requests: {"type": "import"|"create", "addresses":[...]}
+# rescan: {"height":..., "addresses":[...]}
+
+
 @bp.route("/wallets")
 @login_required
 async def list():

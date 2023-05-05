@@ -12,9 +12,6 @@ bp = Blueprint('meta', 'meta')
 @bp.route("/")
 @login_required
 async def index():
-    admin = User.select().first()
-    if not admin:
-        return redirect("/setup")
     wallets = Wallet.select().order_by(Wallet.date.desc())
     lws = LWS(admin.view_key)
     return await render_template(

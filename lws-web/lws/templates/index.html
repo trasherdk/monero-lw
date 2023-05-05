@@ -6,10 +6,28 @@
 <hr>
 <p>LWS Admin: {{ config.LWS_ADMIN_URL }}</p>
 <p>LWS RPC: {{ config.LWS_URL }}</p>
-<!-- <p>{{ wallets.count() }} wallet{% if wallets.count() > 1 %}s{% endif %} being scanned by LWS</p> -->
 <h3>Active Accounts</h3>
-{% for a in lws_accounts['active'] %}
-<li>{{ a['address'] }} - {{ a['scan_height'] }}</li>
-{% endfor %}
+<table class="striped">
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>Address</th>
+        <th>Height</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for a in lws_accounts %}
+            {% if a != 'hidden' %}
+                {% for acc in lws_accounts[a] %}
+                    <tr>
+                        <td>{{ a | upper }}</td>
+                        <td>{{ acc['address'] | shorten }}</td>
+                        <td>{{ acc['scan_height'] }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
 

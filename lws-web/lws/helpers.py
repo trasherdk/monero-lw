@@ -19,3 +19,19 @@ class LWS:
         except Exception as e:
             print(f"Failed to list accounts: {e}")
             return {}
+    
+    def get_address_txs(self, address, view_key):
+        endpoint = f"{config.LWS_URL}/get_address_txs"
+        data = {
+            "address": address, 
+            "view_key": view_key
+        }
+        try:
+            req = requests.post(endpoint, json=data, timeout=5)
+            req.raise_for_status()
+            if req.ok:
+                return req.json()
+            return {}
+        except Exception as e:
+            print(f"Failed to get wallet info {address}: {e}")
+            return False

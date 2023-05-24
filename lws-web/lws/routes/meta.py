@@ -13,6 +13,9 @@ bp = Blueprint("meta", "meta")
 @login_required
 async def index():
     admin = User.select().first()
+    if not admin:
+        await flash("must setup admin first")
+        return redirect("/setup")
     lws = LWS(admin.view_key)
     accounts = lws.list_accounts()
     data = {}
@@ -20,7 +23,7 @@ async def index():
         if status == "hidden":
             continue
         for account in accounts[status]:
-            account["wallet"] = Wallet.select().where(Wallet.address ** account["address"]).first()
+            account["wallet"] = Wallet.select().where(Wallet.address ** account["address"]).order_by(Wallet.date.asc()).first()
             account["status"] = status
             data[account["address"]] = account
     return await render_template(

@@ -8,20 +8,24 @@
 <h6>{{ wallet.date }}</h6>
 <p>Restore Height: {{ wallet.restore_height }}</p>
 <p>Address: <span class="key">{{ wallet.address }}</span></p>
-<p>Scanned Height: {{ info['scanned_height'] }} <span class="smol">({{ info['blockchain_height'] - info['scanned_height'] }} blocks away from top)</span></p>
-<p>Chain Height: {{ info['blockchain_height'] }}</p>
-<p>Spent Outputs: {{ info['spent_outputs'] | length }}</p>
-{% if wallet.is_active() %}
-    <p>Status: active</p>
-{% else %}
-    <p>Status: inactive</p>
-{% endif %}
+{% if info %}
+    <p>Scanned Height: {{ info['scanned_height'] }} <span class="smol">({{ info['blockchain_height'] - info['scanned_height'] }} blocks away from top)</span></p>
+    <p>Chain Height: {{ info['blockchain_height'] }}</p>
+    <p>Spent Outputs: {{ info['spent_outputs'] | length }}</p>
+    {% if wallet.is_active() %}
+        <p>Status: active</p>
+    {% else %}
+        <p>Status: inactive</p>
+    {% endif %}
 
 
-<a href="{{ url_for('wallet.rescan', id=wallet.id) }}" class="button dark outline">rescan</a>
-{% if wallet.is_active() %}
-    <a href="{{ url_for('wallet.disable', id=wallet.id) }}" class="button error">disable</a>
+    <a href="{{ url_for('wallet.rescan', id=wallet.id) }}" class="button dark outline">rescan</a>
+    {% if wallet.is_active() %}
+        <a href="{{ url_for('wallet.disable', id=wallet.id) }}" class="button error">disable</a>
+    {% else %}
+        <a href="{{ url_for('wallet.enable', id=wallet.id) }}" class="button primary">enable</a>
+    {% endif %}
 {% else %}
-    <a href="{{ url_for('wallet.enable', id=wallet.id) }}" class="button primary">enable</a>
+    <p>not connected to lws</p>
 {% endif %}
 {% endblock %}

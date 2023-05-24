@@ -21,15 +21,15 @@
       {% set _data = data[address] %}
       <tr>
         <td>
-          <button class="button {% if _data['status'] == 'active' %}success{% else %}error{% endif %}">
+          <span class="tag text-white {% if _data['status'] == 'active' %}bg-success{% else %}bg-error{% endif %}">
             {{ _data['status'] | upper }}
-          </button>
+          </span>
         </td>
         <td>
           {% if _data['wallet'] %}
             <a href="/wallet/{{ data[address]['wallet'].id }}">{{ data[address]['wallet'].name }}</a>
           {% else %}
-          <a href="/wallet/add?address={{ address }}">add</a>
+          <a href="/wallet/add?address={{ address }}" class="button">ADD</a>
           {% endif %}
         </td>
         <td>{{ address | shorten }}</td>

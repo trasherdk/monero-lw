@@ -2,29 +2,17 @@ import monero.address
 from quart import Blueprint, render_template, request, flash, redirect
 from quart_auth import login_required, current_user
 
-from lws.models import Wallet, User
+from lws.helpers import lws
 
 
 bp = Blueprint('wallet', 'wallet')
 
-
-# @bp.route("/")
-
-# accept_requests: {"type": "import"|"create", "addresses":[...]}
-# add_account: {"address": ..., "key": ...}
-# list_accounts: {}
-# list_requests: {}
-# modify_account_status: {"status": "active"|"hidden"|"inactive", "addresses":[...]}
-# reject_requests: {"type": "import"|"create", "addresses":[...]}
-# rescan: {"height":..., "addresses":[...]}
 
 @bp.route("/wallet/add", methods=["GET", "POST"])
 @login_required
 async def add():
     form = await request.form
     if form:
-        name = form.get("name", "")
-        description = form.get("description", "")
         address = form.get("address", "")
         view_key = form.get("view_key", "")
         restore_height = form.get("restore_height", 0)
@@ -44,63 +32,63 @@ async def add():
         if not valid_view_key:
             await flash("Invalid view key provided for address")
             return redirect("/wallet/add")
-        wallet = Wallet.create(
-            name=name,
-            description=description,
-            address=address,
-            view_key=view_key,
-            restore_height=restore_height,
-            user=User.get(current_user.auth_id)
-        )
-        if not name:
-            wallet.name = f"wallet-{id}"
-        wallet.add_wallet_lws()
+        lws.add_wallet(address, view_key)
+        lws.rescan(address, int(restore_height))
         await flash("wallet added")
-        return redirect(f"/wallet/{wallet.id}/rescan")
+        return redirect(f"/")
     return await render_template("wallet/add.html")
 
 
-@bp.route("/wallet/<id>")
+# @bp.route("/wallet/<id>")
+# @login_required
+# async def show(id):
+#     wallet = Wallet.select().where(Wallet.id == id).first()
+#     if not wallet:
+#         await flash("wallet does not exist")
+#         return redirect("/")
+#     return await render_template(
+#         "wallet/show.html", 
+#         wallet=wallet
+#     )
+
+# @bp.route("/wallet/<id>/rescan")
+# @login_required
+# async def rescan(id):
+#     wallet = Wallet.select().where(Wallet.id == id).first()
+#     if not wallet:
+#         await flash("wallet does not exist")
+#         return redirect("/")
+#     wallet.rescan()
+#     return redirect(f"/wallet/{id}")
+
+
+@bp.route("/wallet/<address>/disable")
 @login_required
-async def show(id):
-    wallet = Wallet.select().where(Wallet.id == id).first()
-    if not wallet:
-        await flash("wallet does not exist")
-        return redirect("/")
-    return await render_template(
-        "wallet/show.html", 
-        wallet=wallet
-    )
+async def disable(address):
+    lws.modify_wallet(address, False)
+    await flash(f"{address} disabled in LWS")
+    return redirect(f"/")
 
-@bp.route("/wallet/<id>/rescan")
+
+@bp.route("/wallet/<address>/enable")
 @login_required
-async def rescan(id):
-    wallet = Wallet.select().where(Wallet.id == id).first()
-    if not wallet:
-        await flash("wallet does not exist")
-        return redirect("/")
-    wallet.rescan()
-    return redirect(f"/wallet/{id}")
+async def enable(address):
+    lws.modify_wallet(address, True)
+    await flash(f"{address} enabled in LWS")
+    return redirect(f"/")
 
-
-@bp.route("/wallet/<id>/disable")
+@bp.route("/wallet/<address>/accept")
 @login_required
-async def disable(id):
-    wallet = Wallet.select().where(Wallet.id == id).first()
-    if not wallet:
-        await flash("wallet does not exist")
-        return redirect("/")
-    wallet.set_active(False)
-    return redirect(f"/wallet/{id}")
+async def accept(address):
+    lws.accept_request(address)
+    await flash(f"{address} accepted")
+    return redirect(f"/")
 
 
-@bp.route("/wallet/<id>/enable")
+@bp.route("/wallet/<address>/reject")
 @login_required
-async def enable(id):
-    wallet = Wallet.select().where(Wallet.id == id).first()
-    if not wallet:
-        await flash("wallet does not exist")
-        return redirect("/")
-    wallet.set_active(True)
-    return redirect(f"/wallet/{id}")
+async def reject(address):
+    lws.reject_request(address)
+    await flash(f"{address} rejected")
+    return redirect(f"/")
 

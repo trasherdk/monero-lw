@@ -7,13 +7,13 @@ x-log-config: &log-config
       max-file: "5"
 volumes:
   lws:
-  lws-web:
+  lwsadmin:
   mymonero:
 services:
-  # lws-web:
-  #   container_name: lws-web
+  # lwsadmin:
+  #   container_name: lwsadmin
   #   build:
-  #     context: lws-web
+  #     context: lwsadmin
   #     dockerfile: Dockerfile
   #   restart: unless-stopped
   #   depends_on:
@@ -27,30 +27,30 @@ services:
   #   ports:
   #     - 127.0.0.1:5000:5000
   #   volumes:
-  #     - lws-web:/srv/lws-web
+  #     - lwsadmin:/srv/lwsadmin
   #   user: "1000:1000"
   #   command:
   #     ./.venv/bin/poetry run start
   #   <<: *log-config
-  mymonero-web:
-    container_name: mymonero-web
-    build:
-      context: mymonero-web-js
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    environment:
-      MYMONERO_WEB_NETTYPE: 0
-      MYMONERO_WEB_SERVER_URL: localhost:8080
-      MYMONERO_WEB_APP_NAME: MyMonero-SelfHosted
-    depends_on:
-      - monero-lws
-    expose:
-      - 80/tcp
-    ports:
-      - 127.0.0.1:8000:80
-    volumes:
-      - mymonero:/app
-    <<: *log-config
+  # mymonero-web:
+  #   container_name: mymonero-web
+  #   build:
+  #     context: mymonero-web-js
+  #     dockerfile: Dockerfile
+  #   restart: unless-stopped
+  #   environment:
+  #     MYMONERO_WEB_NETTYPE: 0
+  #     MYMONERO_WEB_SERVER_URL: localhost:8080
+  #     MYMONERO_WEB_APP_NAME: MyMonero-SelfHosted
+  #   depends_on:
+  #     - monero-lws
+  #   expose:
+  #     - 80/tcp
+  #   ports:
+  #     - 127.0.0.1:8000:80
+  #   volumes:
+  #     - mymonero:/app
+  #   <<: *log-config
   monero-lws:
     container_name: monero-lws
     build:

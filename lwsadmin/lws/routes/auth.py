@@ -87,6 +87,7 @@ async def setup():
             address=address,
             view_key=view_key
         )
+        admin.save()
         login_user(AuthUser(admin.id))
         return redirect("/")
     return await render_template("setup.html")

@@ -2,19 +2,19 @@ FROM ubuntu:22.04
 
 RUN apt-get update
 RUN apt-get install -y python3 python3-venv
-WORKDIR /srv/lws-web
+WORKDIR /srv/lwsadmin
 RUN adduser \
    --system \
    --shell /bin/bash \
-   --gecos 'lws-web' \
+   --gecos 'lwsadmin' \
    --group \
    --disabled-password \
-   --home /srv/lws-web \
+   --home /srv/lwsadmin \
    --uid 1000 \
-   lws-web
+   lwsadmin
 COPY . .
-RUN chown -R lws-web:lws-web .
-USER lws-web
+RUN chown -R lwsadmin:lwsadmin .
+USER lwsadmin
 RUN python3 -m venv .venv
 RUN .venv/bin/pip install poetry
 RUN .venv/bin/poetry install

@@ -10,38 +10,50 @@
   <thead>
     <tr>
       <th>Status</th>
-      <th>Wallet</th>
+      <th>Action</th>
       <th>Address</th>
-      <th>Description</th>
       <th>Height</th>
     </tr>
   </thead>
   <tbody>
-    {% for address in data %}
-      {% set _data = data[address] %}
+    
+    {% for status in accounts %}
+      {% for account in accounts[status] %}
       <tr>
         <td>
-          <span class="tag text-white {% if _data['status'] == 'active' %}bg-success{% else %}bg-error{% endif %}">
-            {{ _data['status'] | upper }}
+          <span class="tag text-white {% if status == 'active' %}bg-success{% else %}bg-error{% endif %}">
+            {{ status | upper }}
           </span>
         </td>
         <td>
-          {% if _data['wallet'] %}
-            <a href="/wallet/{{ data[address]['wallet'].id }}">{{ data[address]['wallet'].name }}</a>
+          {% if status == 'active' %}
+            <a href="/wallet/{{ account['address'] }}/disable" class="">disable</a>
           {% else %}
-          <a href="/wallet/add?address={{ address }}" class="button">ADD</a>
-          {% endif %}
+            <a href="/wallet/{{ account['address'] }}/enable" class="">enable</a>
+            {% endif %}
         </td>
-        <td>{{ address | shorten }}</td>
-        <td>
-          {% if _data['wallet'] %}
-            {{ _data['wallet'].description or "-" }}
-          {% else %}
-            -
-          {% endif %}
-        </td>
-        <td>{{ data[address]['scan_height'] }}</td>
+        <td>{{ account['address'] | shorten }}</td>
+        <td>{{ account['scan_height'] }}</td>
       </tr>
+      {% endfor %}
+    {% endfor %}
+
+    {% for status in requests %}
+      {% for request in requests[status] %}
+      <tr>
+        <td>
+          <span class="tag text-white bg-dark">
+            PENDING
+          </span>
+        </td>
+        <td>
+          <a href="/wallet/{{ request['address'] }}/accept" class="">approve</a> | 
+          <a href="/wallet/{{ request['address'] }}/reject" class="">reject</a>
+        </td>
+        <td>{{ request['address'] | shorten }}</td>
+        <td>{{ request['start_height'] }}</td>
+      </tr>
+      {% endfor %}
     {% endfor %}
   </tbody>
 </table>

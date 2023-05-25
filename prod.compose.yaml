@@ -52,5 +52,5 @@ services:
     volumes:
       - lws:/home/monero-lws/.bitmonero/light_wallet_server
     command:
-      --scan-threads 4 --rest-threads 4 --rest-server http://127.0.0.1:8080/lws --log-level 1 --daemon=tcp://127.0.0.1:18082 --sub=tcp://127.0.0.1:18083 --access-control-origin "${DOMAIN}"
+      --scan-threads 4 --rest-threads 4 --rest-server http://127.0.0.1:8080/lws --admin-rest-server http://127.0.0.1:8081 --log-level 1 --daemon=tcp://127.0.0.1:18082 --sub=tcp://127.0.0.1:18083 --access-control-origin "${DOMAIN}"
     <<: *log-config

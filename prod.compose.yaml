@@ -8,6 +8,7 @@ x-log-config: &log-config
 volumes:
   lws:
   mymonero:
+  lwsadmin:
 services:
   lwsadmin:
     container_name: lwsadmin

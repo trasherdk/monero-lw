@@ -35,7 +35,7 @@ services:
     image: lalanza808/mymonero-web
     environment:
       MYMONERO_WEB_NETTYPE: 0
-      MYMONERO_WEB_SERVER_URL: ${DOMAIN}${PATH}
+      MYMONERO_WEB_SERVER_URL: ${DOMAIN}${LWSPATH}
       MYMONERO_WEB_APP_NAME: LZAXMR
     ports:
       - 127.0.0.1:8000:80

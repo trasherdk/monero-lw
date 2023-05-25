@@ -1,0 +1,10 @@
+docker-monero-node
+lws-web
+monero-lws
+.env
+.git
+.gitignore
+docker-compose.yaml
+env.example
+Makefile
+README.md

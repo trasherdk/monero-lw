@@ -8,28 +8,48 @@ x-log-config: &log-config
 volumes:
   lws:
   lws-web:
+  mymonero:
 services:
-  lws-web:
-    container_name: lws-web
+  # lws-web:
+  #   container_name: lws-web
+  #   build:
+  #     context: lws-web
+  #     dockerfile: Dockerfile
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - monero-lws
+  #   environment:
+  #       LWS_URL: http://monero-lws:8080
+  #       LWS_ADMIN_URL: http://monero-lws:8081
+  #       QUART_ENV: production
+  #       HOST: 0.0.0.0
+  #       DEBUG: 0
+  #   ports:
+  #     - 127.0.0.1:5000:5000
+  #   volumes:
+  #     - lws-web:/srv/lws-web
+  #   user: "1000:1000"
+  #   command:
+  #     ./.venv/bin/poetry run start
+  #   <<: *log-config
+  mymonero-web:
+    container_name: mymonero-web
     build:
-      context: lws-web
+      context: mymonero-web-js
       dockerfile: Dockerfile
     restart: unless-stopped
+    environment:
+      MYMONERO_WEB_NETTYPE: 0
+      MYMONERO_WEB_SERVER_URL: localhost:8080
+      MYMONERO_WEB_APP_NAME: MyMonero-SelfHosted
     depends_on:
       - monero-lws
-    environment:
-        LWS_URL: http://monero-lws:8080
-        LWS_ADMIN_URL: http://monero-lws:8081
-        QUART_ENV: production
-        HOST: 0.0.0.0
-        DEBUG: 0
+    expose:
+      - 80/tcp
     ports:
-      - 127.0.0.1:5000:5000
+      - 127.0.0.1:8000:80
     volumes:
-      - lws-web:/srv/lws-web
-    user: "1000:1000"
-    command:
-      ./.venv/bin/poetry run start
+      - mymonero:/app
     <<: *log-config
   monero-lws:
     container_name: monero-lws
@@ -62,6 +82,12 @@ services:
     restart: unless-stopped
     volumes:
       - ~/.bitmonero:/srv/monerod
+    expose:
+      - 18080/tcp
+      - 18081/tcp
+      - 18082/tcp
+      - 18083/tcp
+      - 18089/tcp
     command:
       monerod --data-dir /srv/monerod/ --p2p-bind-ip=0.0.0.0 --p2p-bind-port=18080 --rpc-bind-ip=0.0.0.0 --rpc-bind-port=18081 --zmq-rpc-bind-ip=0.0.0.0 --zmq-rpc-bind-port=18082 --zmq-pub tcp://0.0.0.0:18083 --rpc-restricted-bind-ip=0.0.0.0 --rpc-restricted-bind-port=18089 --non-interactive --confirm-external-bind --public-node
     <<: *log-config

@@ -1,0 +1,29 @@
+FROM node:16-alpine as build
+
+ENV NETTYPE 0
+ENV SERVER_URL http://localhost
+ENV APP_NAME MyMonero-Self-Hosted
+
+WORKDIR /srv/mymonero
+
+COPY mymonero-web-js .
+
+RUN adduser \
+   -S \
+   -s /bin/ash \
+   -g 'mymonero' \
+   -D \
+   -h /srv/mymonero \
+   mymonero
+RUN chown -R mymonero .
+USER mymonero
+RUN npm install
+RUN npm run build
+
+COPY mymonero-entrypoint.sh .
+RUN chmod +x entrypoint.sh
+RUN rm .env.defaults
+
+EXPOSE 9110
+
+CMD ["./entrypoint.sh"]

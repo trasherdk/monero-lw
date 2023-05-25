@@ -1,10 +1,12 @@
 # monero-lw
 
-Monero lightwallet project.
+Monero lightwallet project. Packages the following services in one package:
 
-Runs a private `monero-lws` service in the background with an API layer above that for authentication.
+* `monero-lws` by [vtnerd](https://github.com/vtnerd/monero-lws) - scans your wallet's view keys in the background
+* `lwsadmin` by [lza_menace](https://lzahq.tech) - backend CRUD app for managing the LWS backend
+* `monerod` by [The Monero Project](https://github.com/monero-project/monero) - node for syncing Monero blockchain transactions
+* `mymonero-web` by [MyMonero](https://mymonero.com) but forked and cleaned up for personal use by [CryptoGrampy](https://github.com/CryptoGrampy/mymonero-web-js) - the web wallet client
 
-Will be adding client side application to tie the whole thing together.
 
 ## Setup
 
@@ -27,6 +29,7 @@ git clone https://git.cloud.lzahq.tech/nerodev/monero-lw && cd monero-lw
 # 3
 git clone --recursive --branch develop https://github.com/vtnerd/monero-lws
 git clone https://github.com/lalanza808/docker-monero-node
+git clone https://github.com/CryptoGrampy/mymonero-web-js
 
 # 4
 docker-compose build

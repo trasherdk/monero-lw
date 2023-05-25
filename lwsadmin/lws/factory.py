@@ -14,6 +14,7 @@ def create_app():
     app.config["TEMPLATES_AUTO_RELOAD"] = config.TEMPLATES_AUTO_RELOAD
     app.config["QUART_ENV"] = config.QUART_ENV
     app.config["QUART_AUTH_DURATION"] = config.QUART_AUTH_DURATION
+    app.config["SERVER_NAME"] = config.SERVER_NAME
     AuthManager(app)
     bcrypt = Bcrypt(app)
     

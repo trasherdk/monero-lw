@@ -17,7 +17,8 @@ async def index():
         return redirect("/setup")
     lws.init(admin.view_key)
     accounts = lws.list_accounts()
-    del accounts["hidden"]
+    if 'hidden' in accounts:
+        del accounts["hidden"]
     requests = lws.list_requests()
     return await render_template(
         "index.html",

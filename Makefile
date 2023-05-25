@@ -7,7 +7,7 @@ build:
 	docker-compose build
 
 release:
-	docker-compose build
+	docker-compose -f dev.compose.yaml build
 	docker tag monero-lw_mymonero-web lalanza808/mymonero-web:latest
 	docker tag monero-lw_monero-lws lalanza808/lws:latest
 	docker tag monero-lw_lwsadmin lalanza808/lwsadmin:latest

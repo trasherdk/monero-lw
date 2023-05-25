@@ -10,47 +10,47 @@ volumes:
   lwsadmin:
   mymonero:
 services:
-  # lwsadmin:
-  #   container_name: lwsadmin
-  #   build:
-  #     context: lwsadmin
-  #     dockerfile: Dockerfile
-  #   restart: unless-stopped
-  #   depends_on:
-  #     - monero-lws
-  #   environment:
-  #       LWS_URL: http://monero-lws:8080
-  #       LWS_ADMIN_URL: http://monero-lws:8081
-  #       QUART_ENV: production
-  #       HOST: 0.0.0.0
-  #       DEBUG: 0
-  #   ports:
-  #     - 127.0.0.1:5000:5000
-  #   volumes:
-  #     - lwsadmin:/srv/lwsadmin
-  #   user: "1000:1000"
-  #   command:
-  #     ./.venv/bin/poetry run start
-  #   <<: *log-config
-  # mymonero-web:
-  #   container_name: mymonero-web
-  #   build:
-  #     context: mymonero-web-js
-  #     dockerfile: Dockerfile
-  #   restart: unless-stopped
-  #   environment:
-  #     MYMONERO_WEB_NETTYPE: 0
-  #     MYMONERO_WEB_SERVER_URL: localhost:8080
-  #     MYMONERO_WEB_APP_NAME: MyMonero-SelfHosted
-  #   depends_on:
-  #     - monero-lws
-  #   expose:
-  #     - 80/tcp
-  #   ports:
-  #     - 127.0.0.1:8000:80
-  #   volumes:
-  #     - mymonero:/app
-  #   <<: *log-config
+  lwsadmin:
+    container_name: lwsadmin
+    build:
+      context: lwsadmin
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - monero-lws
+    environment:
+        LWS_URL: http://monero-lws:8080
+        LWS_ADMIN_URL: http://monero-lws:8081
+        QUART_ENV: production
+        HOST: 0.0.0.0
+        DEBUG: 0
+    ports:
+      - 127.0.0.1:5000:5000
+    volumes:
+      - lwsadmin:/srv/lwsadmin
+    user: "1000:1000"
+    command:
+      ./.venv/bin/poetry run start
+    <<: *log-config
+  mymonero-web:
+    container_name: mymonero-web
+    build:
+      context: mymonero-web-js
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      MYMONERO_WEB_NETTYPE: 0
+      MYMONERO_WEB_SERVER_URL: localhost:8080
+      MYMONERO_WEB_APP_NAME: MyMonero-SelfHosted
+    depends_on:
+      - monero-lws
+    expose:
+      - 80/tcp
+    ports:
+      - 127.0.0.1:8000:80
+    volumes:
+      - mymonero:/app
+    <<: *log-config
   monero-lws:
     container_name: monero-lws
     build:

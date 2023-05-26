@@ -3,7 +3,7 @@ from datetime import datetime
 from peewee import *
 
 
-db = SqliteDatabase('lws.db')
+db = SqliteDatabase('data/lws.db')
 
 
 class User(Model):

@@ -1,5 +1,5 @@
 docker-monero-node
-lws-web
+lwsadmin
 monero-lws
 .env
 .git
@@ -8,3 +8,5 @@ docker-compose.yaml
 env.example
 Makefile
 README.md
+.venv
+*.db

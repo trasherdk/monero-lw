@@ -27,7 +27,7 @@ services:
     ports:
       - 127.0.0.1:5000:5000
     volumes:
-      - lwsadmin:/srv/lwsadmin
+      - lwsadmin:/srv/lwsadmin/data
     user: "1000:1000"
     command:
       ./.venv/bin/poetry run start

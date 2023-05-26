@@ -30,10 +30,18 @@
             <a href="/wallet/{{ account['address'] }}/disable" class="">disable</a>
           {% else %}
             <a href="/wallet/{{ account['address'] }}/enable" class="">enable</a>
-            {% endif %}
+          {% endif %}
         </td>
         <td>{{ account['address'] | shorten }}</td>
-        <td>{{ account['scan_height'] }}</td>
+        <td>
+          
+          <form method="get" action="{{ url_for('wallet.rescan') }}">
+            {{ account['scan_height'] }}
+            <input type="integer" name="height" style="width: 5em; display: inline;" />
+            <input type="hidden" name="address" value="{{ account['address'] }}" />
+            <button type="submit">Rescan</button>
+          </form>
+        </td>
       </tr>
       {% endfor %}
     {% endfor %}

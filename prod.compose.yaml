@@ -17,13 +17,12 @@ services:
     depends_on:
       - monero-lws
     environment:
-        LWS_URL: http://monero-lws:8080
-        LWS_ADMIN_URL: http://monero-lws:8081
+        LWS_URL: http://127.0.0.1:8080
+        LWS_ADMIN_URL: http://127.0.0.1:8081
         QUART_ENV: production
-        HOST: 0.0.0.0
+        HOST: 127.0.0.1
         DEBUG: 0
-    ports:
-      - 127.0.0.1:5000:5000
+    network_mode: host
     volumes:
       - lwsadmin:/srv/lwsadmin
     user: "1000:1000"
@@ -52,5 +51,5 @@ services:
     volumes:
       - lws:/home/monero-lws/.bitmonero/light_wallet_server
     command:
-      --scan-threads 4 --rest-threads 4 --rest-server http://127.0.0.1:8080/lws --admin-rest-server http://127.0.0.1:8081 --log-level 1 --daemon=tcp://127.0.0.1:18082 --sub=tcp://127.0.0.1:18083 --access-control-origin "${DOMAIN}"
+      --scan-threads 4 --rest-threads 2 --rest-server http://127.0.0.1:8080/lws --admin-rest-server http://127.0.0.1:8081 --log-level 0 --daemon=tcp://127.0.0.1:18082 --sub=tcp://127.0.0.1:18085 --access-control-origin "${DOMAIN}"
     <<: *log-config

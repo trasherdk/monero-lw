@@ -10,11 +10,9 @@ from lws import config
 bp = Blueprint("meta", "meta")
 
 @bp.route("/")
+@login_required
 async def index():
     admin = User.select().first()
-    if not admin:
-        await flash("must setup admin first")
-        return redirect("/setup")
     lws.init(admin.view_key)
     accounts = lws.list_accounts()
     if 'hidden' in accounts:

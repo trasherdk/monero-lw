@@ -39,27 +39,19 @@ async def add():
     return await render_template("wallet/add.html")
 
 
-# @bp.route("/wallet/<id>")
-# @login_required
-# async def show(id):
-#     wallet = Wallet.select().where(Wallet.id == id).first()
-#     if not wallet:
-#         await flash("wallet does not exist")
-#         return redirect("/")
-#     return await render_template(
-#         "wallet/show.html", 
-#         wallet=wallet
-#     )
-
-# @bp.route("/wallet/<id>/rescan")
-# @login_required
-# async def rescan(id):
-#     wallet = Wallet.select().where(Wallet.id == id).first()
-#     if not wallet:
-#         await flash("wallet does not exist")
-#         return redirect("/")
-#     wallet.rescan()
-#     return redirect(f"/wallet/{id}")
+@bp.route("/wallet/rescan")
+@login_required
+async def rescan():
+    address = request.args.get('address')
+    height = request.args.get('height')
+    if not address or not height:
+        await flash("you need to provide both address and height")
+        return redirect("/")
+    if lws.rescan(address, int(height)):
+        await flash(f"rescanning {address} from block {height}")
+    else:
+        await flash("probz")
+    return redirect(f"/")
 
 
 @bp.route("/wallet/<address>/disable")

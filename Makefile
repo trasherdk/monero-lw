@@ -3,9 +3,6 @@ init:
 	git clone https://github.com/lalanza808/docker-monero-node
 	git clone https://github.com/CryptoGrampy/mymonero-web-js
 
-build:
-	docker-compose build
-
 release:
 	docker-compose -f dev.compose.yaml build
 	docker tag monero-lw_mymonero-web lalanza808/mymonero-web:latest
@@ -14,3 +11,21 @@ release:
 	docker push lalanza808/mymonero-web
 	docker push lalanza808/lws
 	docker push lalanza808/lwsadmin
+
+prod-up:
+	docker-compose -f prod.compose.yaml up -d
+
+prod-down:
+	docker-compose -f prod.compose.yaml down --remove-orphans
+
+prod-logs:
+	docker-compose -f prod.compose.yaml logs -f
+
+dev-up:
+	docker-compose -f dev.compose.yaml up -d
+
+dev-down:
+	docker-compose -f dev.compose.yaml down --remove-orphans
+
+dev-logs:
+	docker-compose -f dev.compose.yaml logs -f

@@ -20,7 +20,7 @@ services:
         LWS_URL: http://127.0.0.1:8080
         LWS_ADMIN_URL: http://127.0.0.1:8081
         QUART_ENV: production
-        HOST: 127.0.0.1
+        HOST: 0.0.0.0
         DEBUG: 0
     network_mode: host
     volumes:

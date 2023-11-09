@@ -12,13 +12,12 @@ volumes:
 services:
   monero-lws:
     container_name: monero-lws
-    build:
-      context: monero-lws
-      dockerfile: Dockerfile
-      args:
-        MONERO_BRANCH: release-v0.18
-        MONERO_COMMIT_HASH: 2f45d5c615492dffa456489d73543870e5a224ab
-        NPROC: 4
+    image: lalanza808/monero-lws:develop
+    # build:
+    #   context: monero-lws
+    #   dockerfile: Dockerfile
+    #   args:
+    #     NPROC: 16
     restart: unless-stopped
     depends_on:
       - monerod
@@ -35,9 +34,10 @@ services:
     <<: *log-config
   monerod:
     container_name: monerod
-    build:
-      context: docker-monero-node/dockerfiles
-      dockerfile: monero_nocompile
+    image: lalanza808/monerod:v0.18.3.1
+    # build:
+    #   context: docker-monero-node/dockerfiles
+    #   dockerfile: monero
     restart: unless-stopped
     volumes:
       - ~/.bitmonero:/srv/monerod

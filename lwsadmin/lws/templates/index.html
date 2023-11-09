@@ -1,68 +1,25 @@
 {% extends 'includes/base.html' %}
 
 {% block content %}
-<h1>LWS Web Admin</h1>
+
+<h1>Monero Lightwallet Server</h1>
 <p>LWS Admin: {{ config.LWS_ADMIN_URL }}</p>
 <p>LWS RPC: {{ config.LWS_URL }}</p>
 <h3>Accounts</h3>
-<a href="/wallet/add" class="button outline primary">Add Wallet</a>
-<table class="striped">
-  <thead>
-    <tr>
-      <th>Status</th>
-      <th>Action</th>
-      <th>Address</th>
-      <th>Height</th>
-    </tr>
-  </thead>
-  <tbody>
-    
-    {% for status in accounts %}
-      {% for account in accounts[status] %}
-      <tr>
-        <td>
-          <span class="tag text-white {% if status == 'active' %}bg-success{% else %}bg-error{% endif %}">
-            {{ status | upper }}
-          </span>
-        </td>
-        <td>
-          {% if status == 'active' %}
-            <a href="/wallet/{{ account['address'] }}/disable" class="">disable</a>
-          {% else %}
-            <a href="/wallet/{{ account['address'] }}/enable" class="">enable</a>
-          {% endif %}
-        </td>
-        <td>{{ account['address'] | shorten }}</td>
-        <td>
-          
-          <form method="get" action="{{ url_for('wallet.rescan') }}">
-            {{ account['scan_height'] }}
-            <input type="integer" name="height" style="width: 5em; display: inline;" />
-            <input type="hidden" name="address" value="{{ account['address'] }}" />
-            <button type="submit">Rescan</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    {% endfor %}
 
-    {% for status in requests %}
-      {% for request in requests[status] %}
-      <tr>
-        <td>
-          <span class="tag text-white bg-dark">
-            PENDING
-          </span>
-        </td>
-        <td>
-          <a href="/wallet/{{ request['address'] }}/accept" class="">approve</a> | 
-          <a href="/wallet/{{ request['address'] }}/reject" class="">reject</a>
-        </td>
-        <td>{{ request['address'] | shorten }}</td>
-        <td>{{ request['start_height'] }}</td>
-      </tr>
-      {% endfor %}
-    {% endfor %}
-  </tbody>
-</table>
+<div>
+  <a hx-get="/htmx/import_wallet" hx-target="#walletEvent" class="button primary outline">
+    Import Wallet
+  </a>
+  <a hx-get="/htmx/create_wallet" hx-target="#walletEvent" class="button primary">
+    Create Wallet
+  </a>
+</div>
+<div class="" style="margin-top: 2em">
+  <p id="walletEvent"></p>
+</div>
+
+<div hx-trigger="every 15s" hx-get="/htmx/show_wallets" hx-target="#show_wallets"></div>
+<div hx-trigger="load" hx-get="/htmx/show_wallets" id="show_wallets"></div>
+
 {% endblock %}

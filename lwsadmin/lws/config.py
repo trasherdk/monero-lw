@@ -18,4 +18,5 @@ QUART_AUTH_DURATION = int(env.get('QUART_AUTH_DURATION', 60 * 60))    # 1 hour
 LWS_URL = env.get("LWS_URL", "http://127.0.0.1:8080")
 LWS_ADMIN_URL = env.get("LWS_ADMIN_URL", "http://127.0.0.1:8081")
 
-#
+# Monerod
+MONEROD_URL = env.get("MONEROD_URL", "http://singapore.node.xmr.pm:18089")

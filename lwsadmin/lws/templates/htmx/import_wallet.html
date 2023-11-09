@@ -1,0 +1,10 @@
+<form hx-post="{{ url_for('wallet.add') }}" id="import_wallet">
+    <label for="address">Address</label>
+    <input type="text" name="address" value="{{ request.args.get('address', '') }}" />
+    <label for="view_key">Secret View Key</label>
+    <input type="text" name="view_key" />
+    <label for="restore_height">Restore Height</label>
+    <input type="number" name="restore_height" />
+    <button onclick="document.getElementById('import_wallet').innerHTML = ''">Cancel</button>
+    <button type="submit">Import</button>
+</form>

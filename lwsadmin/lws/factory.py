@@ -20,12 +20,13 @@ def create_app():
     
     @app.before_serving
     async def startup():
-        from lws.routes import auth, wallet, meta
+        from lws.routes import auth, wallet, meta, htmx
         from lws import filters
         app.register_blueprint(filters.bp)
         app.register_blueprint(auth.bp)
         app.register_blueprint(meta.bp)
         app.register_blueprint(wallet.bp)
+        app.register_blueprint(htmx.bp)
 
     @app.errorhandler(Unauthorized)
     async def redirect_to_login(*_):

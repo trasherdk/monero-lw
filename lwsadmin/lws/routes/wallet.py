@@ -15,7 +15,7 @@ async def add():
     if form:
         address = form.get("address", "")
         view_key = form.get("view_key", "")
-        restore_height = form.get("restore_height", 0)
+        restore_height = form.get("restore_height", None)
         valid_view_key = False
         if not address:
             await flash("must provide an address")
@@ -33,7 +33,8 @@ async def add():
             await flash("Invalid view key provided for address")
             return redirect("/wallet/add")
         lws.add_wallet(address, view_key)
-        lws.rescan(address, int(restore_height))
+        if restore_height != "-1":
+            lws.rescan(address, int(restore_height))
         await flash("wallet added")
         return redirect(f"/")
     return await render_template("wallet/add.html")

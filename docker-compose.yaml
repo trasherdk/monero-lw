@@ -7,8 +7,6 @@ x-log-config: &log-config
       max-file: "5"
 volumes:
   lws:
-  lwsadmin:
-  mymonero:
 services:
   monero-lws:
     container_name: monero-lws

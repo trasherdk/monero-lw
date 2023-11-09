@@ -1,0 +1,58 @@
+<table class="striped">
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>Action</th>
+        <th>Address</th>
+        <th>Height</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for status in accounts %}
+        {% for account in accounts[status] %}
+        <tr>
+          <td>
+            <span class="tag text-white {% if status == 'active' %}bg-success{% else %}bg-error{% endif %}">
+              {{ status | upper }}
+            </span>
+          </td>
+          <td>
+            {% if status == 'active' %}
+              <a href="/wallet/{{ account['address'] }}/disable" class="">disable</a>
+            {% else %}
+              <a href="/wallet/{{ account['address'] }}/enable" class="">enable</a>
+            {% endif %}
+          </td>
+          <td>{{ account['address'] | shorten }}</td>
+          <td>
+            
+            <form method="get" action="{{ url_for('wallet.rescan') }}">
+              {{ account['scan_height'] }}
+              <input type="integer" name="height" style="width: 5em; display: inline;" />
+              <input type="hidden" name="address" value="{{ account['address'] }}" />
+              <button type="submit">Rescan</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      {% endfor %}
+  
+      {% for status in requests %}
+        {% for request in requests[status] %}
+        <tr>
+          <td>
+            <span class="tag text-white bg-dark">
+              PENDING
+            </span>
+          </td>
+          <td>
+            <a href="/wallet/{{ request['address'] }}/accept" class="">approve</a> | 
+            <a href="/wallet/{{ request['address'] }}/reject" class="">reject</a>
+          </td>
+          <td>{{ request['address'] | shorten }}</td>
+          <td>{{ request['start_height'] }}</td>
+        </tr>
+        {% endfor %}
+      {% endfor %}
+    </tbody>
+  </table>

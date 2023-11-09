@@ -18,6 +18,14 @@ from lws import config
 # webhook_delete_uuid: {"event_ids": [...]}
 # webhook_list: {}
 
+def get_height() -> int:
+    try:
+        r = requests.get(f"{config.MONEROD_URL}/get_info")
+        print(r.content)
+        return int(r.json()["height"])
+    except Exception as e:
+        print(e)
+        return 0
 
 class LWS:
     def __init__(self):
@@ -25,6 +33,16 @@ class LWS:
 
     def init(self, admin_key):
         self.admin_key = admin_key
+    
+    def get_address_info(self, address, view_key):
+        endpoint = f"{config.LWS_URL}/get_address_info"
+        data = {
+            "address": address,
+            "view_key": view_key
+        }
+        r = requests.post(endpoint, json=data, timeout=5)
+        r.raise_for_status()
+        return r.json()
     
     def get_wallet(self, address: str) -> dict:
         try:

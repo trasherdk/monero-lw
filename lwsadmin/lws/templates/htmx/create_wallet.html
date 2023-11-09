@@ -1,0 +1,15 @@
+<div id="create_wallet">
+    <p>Seed: <span class="key">{{ seed }}</span></p>
+    <p>Public Address: <span class="key">{{ address }}</span></p>
+    <p>Public Spend Key: <span class="key">{{ psk }}</span></p>
+    <p>Public View Key: <span class="key">{{ pvk }}</span></p>
+    <p>Secret Spend Key: <span class="key">{{ ssk }}</span></p>
+    <p>Secret View Key: <span class="key">{{ svk }}</span></p>
+    <form method="post" action="{{ url_for('wallet.add') }}" hx-confirm="Please confirm">
+        <input type="text" name="address" value="{{ address }}" class="hidden" />
+        <input type="text" name="view_key" value="{{ svk }}" class="hidden" />
+        <input type="number" name="restore_height" value="-1" class="hidden" />
+        <button onclick="document.getElementById('create_wallet').innerHTML = ''">Cancel</button>
+        <button type="submit" >Create</button>
+    </form>
+</div>

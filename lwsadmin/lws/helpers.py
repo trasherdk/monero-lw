@@ -126,9 +126,8 @@ class LWS:
             print(f"Failed to add wallet {address}: {e}")
             return {}
         
-    def modify_wallet(self, address: str, active: bool) -> dict:
+    def modify_wallet(self, address: str, status: str) -> dict:
         endpoint = f"{config.LWS_ADMIN_URL}/modify_account_status"
-        status = "active" if active else "inactive"
         data = {
             "auth": self.admin_key, 
             "params": {

@@ -21,9 +21,9 @@
 
     <a href="{{ url_for('wallet.rescan', id=wallet.id) }}" class="button dark outline">rescan</a>
     {% if wallet.is_active() %}
-        <a href="{{ url_for('wallet.disable', id=wallet.id) }}" class="button error">disable</a>
+        <a href="{{ url_for('wallet.modify', id=wallet.id, status) }}" class="button error">disable</a>
     {% else %}
-        <a href="{{ url_for('wallet.enable', id=wallet.id) }}" class="button primary">enable</a>
+        <a href="{{ url_for('wallet.modify', id=wallet.id, status) }}" class="button primary">enable</a>
     {% endif %}
 {% else %}
     <p>not connected to lws</p>

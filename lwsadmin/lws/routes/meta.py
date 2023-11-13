@@ -14,15 +14,9 @@ bp = Blueprint("meta", "meta")
 async def index():
     admin = User.select().first()
     lws.init(admin.view_key)
-    accounts = lws.list_accounts()
-    if 'hidden' in accounts:
-        del accounts["hidden"]
-    requests = lws.list_requests()
     return await render_template(
         "index.html",
-        config=config,
-        accounts=accounts,
-        requests=requests
+        config=config
     )
 
 

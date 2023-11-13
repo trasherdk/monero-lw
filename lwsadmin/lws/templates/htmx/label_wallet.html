@@ -1,0 +1,13 @@
+<form action="#" onsubmit="updateLabel(event)">
+    <input type="text" name="label" onkeyup="updateLabel(event)" value="{{ label }}" id="newLabel">
+</form>
+<script>
+    function updateLabel(e){
+        e.preventDefault();
+        if (e.keyCode === 13) {
+            htmx.ajax('GET', `/wallet/{{ address }}/label/${e.target.value}`, '#show_wallets');
+        } else if (e.keyCode === 27) {
+            htmx.ajax('GET', '{{ url_for("htmx.show_wallets") }}', '#show_wallets');
+        }
+    }
+</script>

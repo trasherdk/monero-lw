@@ -1,4 +1,4 @@
-from quart import Blueprint, render_template
+from quart import Blueprint, render_template, request
 from monero.seed import Seed
 from quart_auth import login_required
 
@@ -10,7 +10,6 @@ bp = Blueprint('htmx', 'htmx', url_prefix="/htmx")
 
 
 @bp.route("/create_wallet")
-@login_required
 async def create_wallet():
     seed = Seed()
     return await render_template(
@@ -24,9 +23,18 @@ async def create_wallet():
     )
 
 @bp.route("/import_wallet")
-@login_required
 async def import_wallet():
     return await render_template("htmx/import_wallet.html")
+
+@bp.route("/label_wallet")
+async def label_wallet():
+    address = request.args.get("address")
+    label = request.args.get("label")
+    return await render_template(
+        "htmx/label_wallet.html", 
+        address=address, 
+        label=label
+    )
 
 @bp.route("/show_wallets")
 @login_required

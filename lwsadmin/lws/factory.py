@@ -30,7 +30,11 @@ def create_app():
 
     @app.errorhandler(Unauthorized)
     async def redirect_to_login(*_):
-        return redirect(f"/login?next={request.path}")
+        if request.path == "/":
+            return redirect(f"/login?next={request.path}")
+        else:
+            return f"<p>you need to authenticate first</p><a href=\"/login\">login</a>"
+    
     return app
     
 bcrypt = Bcrypt(create_app())

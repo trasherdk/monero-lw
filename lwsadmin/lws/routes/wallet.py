@@ -68,7 +68,6 @@ async def rescan():
 @login_required
 async def modify(address, status):
     lws.modify_wallet(address, status)
-    await flash(f"{address} {status} in LWS")
     return redirect(url_for("htmx.show_wallets"))
 
 
@@ -76,7 +75,6 @@ async def modify(address, status):
 @login_required
 async def accept(address):
     lws.accept_request(address)
-    await flash(f"{address} accepted")
     return redirect(url_for("htmx.show_wallets"))
 
 
@@ -84,7 +82,6 @@ async def accept(address):
 @login_required
 async def reject(address):
     lws.reject_request(address)
-    await flash(f"{address} denied")
     return redirect(url_for("htmx.show_wallets"))
 
 

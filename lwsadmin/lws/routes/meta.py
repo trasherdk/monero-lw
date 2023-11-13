@@ -9,6 +9,7 @@ from lws import config
 
 bp = Blueprint("meta", "meta")
 
+
 @bp.route("/")
 @login_required
 async def index():

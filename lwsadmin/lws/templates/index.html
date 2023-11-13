@@ -14,8 +14,10 @@
 
 <div>
   <h3>Accounts</h3>
-  <a hx-get="/htmx/show_wallets" hx-target="#show_wallets" class="button outline" hx-indicator="#refreshLoader">Refresh</a>
-  <p class="indicator" id="refreshLoader">...</p>
+  <div hx-get="/htmx/show_wallets" hx-target="#show_wallets" class="button outline" hx-indicator="#refreshLoader">
+    Refresh
+    <i class="fa-solid fa-rotate-right indicator" id="refreshLoader"></i>
+  </div>
   <div hx-trigger="load" hx-get="/htmx/show_wallets" id="show_wallets"></div>
 </div>
 

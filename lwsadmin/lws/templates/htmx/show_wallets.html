@@ -32,7 +32,9 @@
         {% for account in accounts[status] %}
         <tr>
           <td>
-            <div hx-get="/htmx/label_wallet" hx-target="this" hx-swap="outerHTML" hx-vals='{"address": "{{ account['address'] }}", "label": "{{ account['address'] | find_label }}"}'>{{ account['address'] | find_label }}</div>
+            <div hx-get="/htmx/label_wallet" hx-target="this" hx-swap="outerHTML" hx-vals='{"address": "{{ account['address'] }}", "label": "{{ account['address'] | find_label }}"}'>
+              {{ account['address'] | find_label }} <i class="fa-regular fa-pen-to-square"></i>
+            </div>
           </td>
           <td>
             <span class="tag {% if status == 'active' %}text-primary{% else %}text-error{% endif %}">
@@ -41,25 +43,18 @@
           </td>
           <td>
             {% if status == 'active' %}
-              <!-- <a href="/wallet/{{ account['address'] }}/inactive" class="button secondary outline">Disable</a> -->
-              <button class="button primary outline" tx-target="#show_wallets" hx-get="/wallet/{{ account['address'] }}/inactive">Disable</button>
+              <button class="button primary outline" hx-target="#show_wallets" hx-get="/wallet/{{ account['address'] }}/inactive" hx-swap="innerHTML" >Deactivate</button>
             {% else %}
-              <a href="/wallet/{{ account['address'] }}/active" class="button primary outline">Enable</a>
-            {% endif %}
+              <button class="button primary outline" hx-target="#show_wallets" hx-get="/wallet/{{ account['address'] }}/active" hx-swap="innerHTML" >Activate</button>
+              {% endif %}
           </td>
           <td>{{ account['address'] | shorten }}</td>
           <td>
-            {{ account['scan_height'] }}
-            <!--
-              <form method="get" action="{{ url_for('wallet.rescan') }}">
-                <input type="integer" name="height" style="width: 5em; display: inline;" />
-                <input type="hidden" name="address" value="{{ account['address'] }}" />
-                <button type="submit">Rescan</button>
-              </form> 
-            -->
+            <i class="fa-sharp fa-solid fa-spinner fa-spin"></i> {{ account['scan_height'] }}
           </td>
         </tr>
         {% endfor %}
       {% endfor %}
     </tbody>
-  </table>
+</table>
+

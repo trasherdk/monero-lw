@@ -27,7 +27,6 @@ class User(Model):
 class Wallet(Model):
     date = DateTimeField(default=datetime.utcnow)
     address = CharField()
-    view_key = CharField()
     label = CharField(default=get_random_words, null=False)
 
     class Meta:

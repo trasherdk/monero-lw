@@ -2,7 +2,7 @@ from quart import Blueprint, render_template, request
 from monero.seed import Seed
 from quart_auth import login_required
 
-from lws.models import User
+from lws.models import User, Wallet
 from lws.helpers import lws
 from lws import config
 
@@ -44,6 +44,16 @@ async def show_wallets():
     accounts = lws.list_accounts()
     if 'hidden' in accounts:
         del accounts["hidden"]
+    # make wallets if they don't exist
+    for status in accounts:
+        print(status)
+        for account in accounts[status]:
+            w = Wallet.select().where(Wallet.address == account["address"]).first()
+            if not w:
+                w = Wallet(
+                    address=account["address"]
+                )
+                w.save()
     requests = lws.list_requests()
     return await render_template(
         "htmx/show_wallets.html",

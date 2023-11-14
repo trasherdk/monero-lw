@@ -19,7 +19,6 @@
             </span>
           </td>
           <td>
-            <!-- <a hx-get="/htmx/import_wallet" hx-target="#walletForm" class="button primary outline"></a> -->
             <button class="button primary" hx-target="#show_wallets" hx-get="{{ url_for('wallet.accept', address=request['address']) }}" hx-swap="innerHTML">Accept</button>
             <button class="button error" hx-target="#show_wallets" hx-get="{{ url_for('wallet.reject', address=request['address']) }}" hx-swap="innerHTML">Reject</button>
           </td>
@@ -53,7 +52,6 @@
           <td>
             <div hx-get="/htmx/set_height" hx-target="this" hx-swap="outerHTML" hx-vals='{"address": "{{ account['address'] }}", "height": "{{ account['scan_height'] }}"}'>
               <span class="underline">{{ account['scan_height'] }}</span>
-              <!-- <i class="fa-sharp fa-solid fa-spinner fa-spin"></i>  -->
               <i class="fa-regular fa-pen-to-square"></i>
             </div>
           </td>

@@ -11,8 +11,8 @@
         <input type="text" name="address" value="{{ address }}" class="hidden" />
         <input type="text" name="view_key" value="{{ svk }}" class="hidden" />
         <input type="number" name="restore_height" value="-1" class="hidden" />
+        <button type="submit">Create</button>
         <button onclick="cancelCreate()">Cancel</button>
-        <button onsubmit="cancelCreate()" type="submit">Create</button>
     </form>
     <script>
         function cancelCreate() {

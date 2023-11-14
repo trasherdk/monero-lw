@@ -1,7 +1,7 @@
 import monero.address
 from monero.seed import Seed
-from quart import Blueprint, render_template, request, flash, redirect, url_for
-from quart_auth import login_required, current_user
+from quart import Blueprint, request, flash, redirect, url_for
+from quart_auth import login_required
 
 from lws.helpers import lws
 from lws.models import Wallet, get_random_words
@@ -15,7 +15,6 @@ bp = Blueprint("wallet", "wallet")
 async def add():
     form = await request.form
     if form:
-        address = None
         label = form.get("label")
         seed = form.get("seed")
         restore_height = form.get("restore_height", None)
@@ -29,7 +28,7 @@ async def add():
         svk = str(seed.secret_view_key())
         lws.add_wallet(address, svk)
         if restore_height != "-1":
-            lws.rescan(address, str(restore_height))
+            lws.rescan(address, int(restore_height))
         w = Wallet(
             address=seed.public_address(),
             label=label if label else get_random_words()

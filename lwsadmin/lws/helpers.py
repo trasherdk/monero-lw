@@ -18,15 +18,6 @@ from lws import config
 # webhook_delete_uuid: {"event_ids": [...]}
 # webhook_list: {}
 
-def get_height() -> int:
-    try:
-        r = requests.get(f"{config.MONEROD_URL}/get_info")
-        print(r.content)
-        return int(r.json()["height"])
-    except Exception as e:
-        print(e)
-        return 0
-
 class LWS:
     def __init__(self):
         pass

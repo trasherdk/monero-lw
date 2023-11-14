@@ -23,10 +23,12 @@ async def create_wallet():
         svk=seed.secret_view_key()
     )
 
+
 @bp.route("/import_wallet")
 async def import_wallet():
     """Importing an existing wallet"""
     return await render_template("htmx/import_wallet.html")
+
 
 @bp.route("/label_wallet")
 async def label_wallet():
@@ -39,6 +41,7 @@ async def label_wallet():
         label=label
     )
 
+
 @bp.route("/set_height")
 async def set_height():
     """Setting a new height to scan from"""
@@ -49,6 +52,7 @@ async def set_height():
         address=address,
         height=height
     )
+
 
 @bp.route("/show_wallets")
 @login_required

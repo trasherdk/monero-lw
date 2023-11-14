@@ -1,4 +1,5 @@
 import monero.address
+from monero.seed import Seed
 from quart import Blueprint, render_template, request, flash, redirect, url_for
 from quart_auth import login_required, current_user
 
@@ -14,39 +15,27 @@ bp = Blueprint("wallet", "wallet")
 async def add():
     form = await request.form
     if form:
+        address = None
         label = form.get("label")
-        address = form.get("address", "")
-        view_key = form.get("view_key", "")
+        seed = form.get("seed")
         restore_height = form.get("restore_height", None)
-        valid_view_key = False
-        if not address:
-            await flash("must provide an address")
-            return redirect("/wallet/add")
-        if not view_key:
-            await flash("must provide a view_key")
-            return redirect("/wallet/add")
         try:
-            _a = monero.address.Address(address)
-            valid_view_key = _a.check_private_view_key(view_key)
+            seed = Seed(seed)
         except ValueError:
-            await flash("Invalid Monero address")
-            return redirect("/wallet/add")
-        if not valid_view_key:
-            await flash("Invalid view key provided for address")
-            return redirect("/wallet/add")
-        lws.add_wallet(address, view_key)
+            await flash("Invalid mnemonic seed")
+            return ""
+        lws._init()
+        address = str(seed.public_address())
+        svk = str(seed.secret_view_key())
+        lws.add_wallet(address, svk)
         if restore_height != "-1":
-            lws.rescan(address, int(restore_height))
+            lws.rescan(address, str(restore_height))
         w = Wallet(
-            address=address,
-            view_key=view_key,
+            address=seed.public_address(),
             label=label if label else get_random_words()
         )
         w.save()
-        await flash("wallet added")
-        return redirect(f"/")
-    else:
-        return ""
+    return redirect(url_for("htmx.show_wallets"))
 
 
 @bp.route("/wallet/<address>/rescan/<height>")

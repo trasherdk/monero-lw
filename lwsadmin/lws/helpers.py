@@ -34,6 +34,9 @@ class LWS:
     def init(self, admin_key):
         self.admin_key = admin_key
     
+    def _init(self):
+        self.admin_key = User.select().first().view_key
+    
     def get_address_info(self, address, view_key):
         endpoint = f"{config.LWS_URL}/get_address_info"
         data = {

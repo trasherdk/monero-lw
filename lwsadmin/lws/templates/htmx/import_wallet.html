@@ -1,11 +1,22 @@
-<form hx-post="{{ url_for('wallet.add') }}" id="import_wallet">
-    <label for="label">Label</label>
-    <input type="text" name="label" />
-    <label for="seed">Mnemonic Seed</label>
-    <p class="subtext">12, 13, or 25 word seeds</p>
-    <input type="password" name="seed" />
-    <label for="restore_height">Restore Height</label>
-    <input type="number" name="restore_height" />
-    <button onclick="document.getElementById('import_wallet').innerHTML = ''">Cancel</button>
-    <button type="submit">Import</button>
-</form>
+<div id="import_wallet">
+    <form hx-target="#show_wallets" hx-post="{{ url_for('wallet.add') }}" action="#" >
+        <label for="label">Label</label>
+        <input type="text" name="label" />
+        <label for="seed">Mnemonic Seed</label>
+        <p class="subtext">12, 13, or 25 word seeds</p>
+        <input type="password" name="seed" />
+        <label for="restore_height">Restore Height</label>
+        <input type="number" name="restore_height" value="-1" />
+        <button onsubmit="cancelImport()" type="submit">Import</button>
+        <button onclick="cancelImport()">Cancel</button>
+    </form>
+    <script>
+        function cancelImport() {
+            document.getElementById("import_wallet").innerHTML = "";
+        }
+
+        document.getElementById("import_wallet").addEventListener("submit", function() {
+            cancelImport();
+        })
+    </script>
+</div>

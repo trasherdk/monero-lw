@@ -1,0 +1,14 @@
+<form action="#" onsubmit="updateHeight(event)">
+    <input type="text" name="label" onkeyup="updateHeight(event)" value="{{ height }}" id="height-input-{{ address }}" onfocusout="updateHeight(event)">
+</form>
+<script>
+    function updateHeight(e) {
+        e.preventDefault();
+        if (e.keyCode === 13) {
+            htmx.ajax('GET', `/wallet/{{ address }}/rescan/${e.target.value}`, '#show_wallets');
+        } else if (e.keyCode === 27 || e.type == "focusout") {
+            htmx.ajax('GET', '{{ url_for("htmx.show_wallets") }}', '#show_wallets');
+        }
+    }
+    document.getElementById('height-input-{{ address }}').focus();
+</script>

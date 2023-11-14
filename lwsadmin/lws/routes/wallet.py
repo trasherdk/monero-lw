@@ -49,19 +49,11 @@ async def add():
         return ""
 
 
-@bp.route("/wallet/rescan")
+@bp.route("/wallet/<address>/rescan/<height>")
 @login_required
-async def rescan():
-    address = request.args.get("address")
-    height = request.args.get("height")
-    if not address or not height:
-        await flash("you need to provide both address and height")
-        return redirect("/")
-    if lws.rescan(address, int(height)):
-        await flash(f"rescanning {address} from block {height}")
-    else:
-        await flash("probz")
-    return redirect(f"/")
+async def rescan(address, height):
+    lws.rescan(address, int(height))
+    return redirect(url_for("htmx.show_wallets"))
 
 
 @bp.route("/wallet/<address>/<status>")

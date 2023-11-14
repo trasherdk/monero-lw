@@ -36,3 +36,17 @@ input {
 .htmx-request.indicator{
     display:inline;
 }
+
+.underline {
+    text-decoration: underline dotted;
+}
+
+#show_wallets {
+    animation-name: example;
+    animation-duration: 4s;
+}
+
+@keyframes example {
+    from {background-color: red;}
+    to {background-color: yellow;}
+}

@@ -1,8 +1,9 @@
 <form hx-post="{{ url_for('wallet.add') }}" id="import_wallet">
-    <label for="address">Address</label>
-    <input type="text" name="address" value="{{ request.args.get('address', '') }}" />
-    <label for="view_key">Secret View Key</label>
-    <input type="text" name="view_key" />
+    <label for="label">Label</label>
+    <input type="text" name="label" />
+    <label for="seed">Mnemonic Seed</label>
+    <p class="subtext">12, 13, or 25 word seeds</p>
+    <input type="password" name="seed" />
     <label for="restore_height">Restore Height</label>
     <input type="number" name="restore_height" />
     <button onclick="document.getElementById('import_wallet').innerHTML = ''">Cancel</button>

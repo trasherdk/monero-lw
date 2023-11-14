@@ -36,6 +36,16 @@ async def label_wallet():
         label=label
     )
 
+@bp.route("/set_height")
+async def set_height():
+    address = request.args.get("address")
+    height = request.args.get("height")
+    return await render_template(
+        "htmx/set_height.html",
+        address=address,
+        height=height
+    )
+
 @bp.route("/show_wallets")
 @login_required
 async def show_wallets():
@@ -46,7 +56,6 @@ async def show_wallets():
         del accounts["hidden"]
     # make wallets if they don't exist
     for status in accounts:
-        print(status)
         for account in accounts[status]:
             w = Wallet.select().where(Wallet.address == account["address"]).first()
             if not w:

@@ -33,12 +33,12 @@
         <tr>
           <td>
             <div hx-get="/htmx/label_wallet" hx-target="this" hx-swap="outerHTML" hx-vals='{"address": "{{ account['address'] }}", "label": "{{ account['address'] | find_label }}"}'>
-              {{ account['address'] | find_label }} <i class="fa-regular fa-pen-to-square"></i>
+              <span class="underline">{{ account['address'] | find_label }}</span> <i class="fa-regular fa-pen-to-square"></i>
             </div>
           </td>
           <td>
             <span class="tag {% if status == 'active' %}text-primary{% else %}text-error{% endif %}">
-              {{ status | upper }}
+              {{ status | capitalize }}
             </span>
           </td>
           <td>
@@ -50,7 +50,11 @@
           </td>
           <td>{{ account['address'] | shorten }}</td>
           <td>
-            <i class="fa-sharp fa-solid fa-spinner fa-spin"></i> {{ account['scan_height'] }}
+            <div hx-get="/htmx/set_height" hx-target="this" hx-swap="outerHTML" hx-vals='{"address": "{{ account['address'] }}", "height": "{{ account['scan_height'] }}"}'>
+              <span class="underline">{{ account['scan_height'] }}</span>
+              <!-- <i class="fa-sharp fa-solid fa-spinner fa-spin"></i>  -->
+              <i class="fa-regular fa-pen-to-square"></i>
+            </div>
           </td>
         </tr>
         {% endfor %}

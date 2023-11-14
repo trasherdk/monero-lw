@@ -29,11 +29,11 @@ input {
     display: none !important;
 }
 
-.htmx-request .indicator{
+.indicator .htmx-request{
     display:inline;
 }
 
-.htmx-request.indicator{
+.indicator.htmx-request{
     display:inline;
 }
 
@@ -41,12 +41,16 @@ input {
     text-decoration: underline dotted;
 }
 
-#show_wallets {
-    animation-name: example;
-    animation-duration: 4s;
+.showFade {
+    animation-name: render;
+    animation-duration: .5s;
 }
 
-@keyframes example {
-    from {background-color: red;}
-    to {background-color: yellow;}
+@keyframes render {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

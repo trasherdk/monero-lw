@@ -14,11 +14,24 @@
 
 <div>
   <h3>Accounts</h3>
-  <div hx-get="/htmx/show_wallets" hx-target="#show_wallets" class="button outline" hx-indicator="#refreshLoader">
+  <div hx-get="/htmx/show_wallets" hx-target="#show_wallets" class="button outline" hx-indicator="#refresh_loader" onclick="handleRefresh()">
     Refresh
-    <i class="fa-solid fa-rotate-right indicator" id="refreshLoader"></i>
+    <i class="fa-solid fa-rotate-right indicator" id="refresh_loader"></i>
   </div>
-  <div hx-trigger="load" hx-get="/htmx/show_wallets" id="show_wallets"></div>
+  <div hx-trigger="load" hx-get="/htmx/show_wallets" id="show_wallets" onload=""></div>
 </div>
+
+<script>
+  function handleRefresh() {
+    const show_wallets = document.getElementById('show_wallets'); 
+    const loader = document.getElementById('refresh_loader');
+    loader.classList.add('fa-spin');
+    show_wallets.classList.add('showFade');
+    setTimeout(function() {
+      show_wallets.classList.remove('showFade');
+      loader.classList.remove('fa-spin');
+    }, 2000)
+  }
+</script>
 
 {% endblock %}

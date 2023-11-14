@@ -11,6 +11,7 @@ bp = Blueprint('htmx', 'htmx', url_prefix="/htmx")
 
 @bp.route("/create_wallet")
 async def create_wallet():
+    """Creating a new wallet with newly generated seeds"""
     seed = Seed()
     return await render_template(
         "htmx/create_wallet.html",
@@ -24,10 +25,12 @@ async def create_wallet():
 
 @bp.route("/import_wallet")
 async def import_wallet():
+    """Importing an existing wallet"""
     return await render_template("htmx/import_wallet.html")
 
 @bp.route("/label_wallet")
 async def label_wallet():
+    """Changing the label on a stored wallet"""
     address = request.args.get("address")
     label = request.args.get("label")
     return await render_template(
@@ -38,6 +41,7 @@ async def label_wallet():
 
 @bp.route("/set_height")
 async def set_height():
+    """Setting a new height to scan from"""
     address = request.args.get("address")
     height = request.args.get("height")
     return await render_template(
@@ -49,12 +53,13 @@ async def set_height():
 @bp.route("/show_wallets")
 @login_required
 async def show_wallets():
+    """Showing all wallets in the database in a table"""
     admin = User.select().first()
     lws.init(admin.view_key)
     accounts = lws.list_accounts()
     if 'hidden' in accounts:
         del accounts["hidden"]
-    # make wallets if they don't exist
+    # save wallets if they don't exist in the db
     for status in accounts:
         for account in accounts[status]:
             w = Wallet.select().where(Wallet.address == account["address"]).first()

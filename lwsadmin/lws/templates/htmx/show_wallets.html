@@ -20,8 +20,8 @@
           </td>
           <td>
             <!-- <a hx-get="/htmx/import_wallet" hx-target="#walletForm" class="button primary outline"></a> -->
-            <a href="/wallet/{{ request['address'] }}/approve" class="button primary outline">Approve</a>
-            <a href="/wallet/{{ request['address'] }}/deny" class="button secondary outline">Deny</a>
+            <button class="button primary" hx-target="#show_wallets" hx-get="{{ url_for('wallet.accept', address=request['address']) }}" hx-swap="innerHTML">Accept</button>
+            <button class="button error" hx-target="#show_wallets" hx-get="{{ url_for('wallet.reject', address=request['address']) }}" hx-swap="innerHTML">Reject</button>
           </td>
           <td>{{ request['address'] | shorten }}</td>
           <td>{{ request['start_height'] }}</td>
@@ -43,9 +43,10 @@
           </td>
           <td>
             {% if status == 'active' %}
-              <button class="button primary outline" hx-target="#show_wallets" hx-get="/wallet/{{ account['address'] }}/inactive" hx-swap="innerHTML" >Deactivate</button>
+              <button class="button dark outline" hx-target="#show_wallets" hx-get="{{ url_for('wallet.modify', address=account['address'], status='inactive') }}" hx-swap="innerHTML">Deactivate</button>
             {% else %}
-              <button class="button primary outline" hx-target="#show_wallets" hx-get="/wallet/{{ account['address'] }}/active" hx-swap="innerHTML" >Activate</button>
+              <button class="button primary outline" hx-target="#show_wallets" hx-get="{{ url_for('wallet.modify', address=account['address'], status='active') }}" hx-swap="innerHTML" >Activate</button>
+              <button class="button error" hx-target="#show_wallets" hx-get="{{ url_for('wallet.modify', address=account['address'], status='hidden') }}" hx-swap="innerHTML" >Hide</button>
               {% endif %}
           </td>
           <td>{{ account['address'] | shorten }}</td>

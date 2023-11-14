@@ -20,3 +20,6 @@ LWS_ADMIN_URL = env.get("LWS_ADMIN_URL", "http://127.0.0.1:8081")
 
 # Monerod
 MONEROD_URL = env.get("MONEROD_URL", "http://singapore.node.xmr.pm:18089")
+
+# MyMonero
+MYMONERO_URL = env.get("MYMONERO_URL", "http://localhost:9110")

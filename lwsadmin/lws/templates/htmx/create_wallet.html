@@ -1,5 +1,5 @@
 <div id="create_wallet">
-    <form hx-target="#show_wallets" hx-post="{{ url_for('wallet.add') }}" action="#" hx-confirm="hope you saved the seed">
+    <form hx-target="#show_wallets" hx-post="{{ url_for('wallet.add') }}" action="#">
         <label for="label">Label</label>
         <input type="text" name="label" />
         <p>Seed: <span class="key">{{ seed }}</span></p>
@@ -11,8 +11,8 @@
         <input type="text" name="address" value="{{ address }}" class="hidden" />
         <input type="text" name="view_key" value="{{ svk }}" class="hidden" />
         <input type="number" name="restore_height" value="-1" class="hidden" />
-        <button onsubmit="cancelCreate()" type="submit">Create</button>
         <button onclick="cancelCreate()">Cancel</button>
+        <button onsubmit="cancelCreate()" type="submit">Create</button>
     </form>
     <script>
         function cancelCreate() {

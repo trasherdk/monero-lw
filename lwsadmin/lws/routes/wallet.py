@@ -45,21 +45,21 @@ async def rescan(address, height):
     return redirect(url_for("htmx.show_wallets"))
 
 
-@bp.route("/wallet/<address>/<status>")
+@bp.route("/wallet/<address>/modify/<status>")
 @login_required
 async def modify(address, status):
     lws.modify_wallet(address, status)
     return redirect(url_for("htmx.show_wallets"))
 
 
-@bp.route("/wallet/<address>/approve")
+@bp.route("/wallet/<address>/accept")
 @login_required
 async def accept(address):
     lws.accept_request(address)
     return redirect(url_for("htmx.show_wallets"))
 
 
-@bp.route("/wallet/<address>/deny")
+@bp.route("/wallet/<address>/reject")
 @login_required
 async def reject(address):
     lws.reject_request(address)

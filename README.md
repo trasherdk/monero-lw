@@ -8,9 +8,21 @@ Monero lightwallet project. Packages the following services in one package:
 * `mymonero-web` by [MyMonero](https://mymonero.com) but forked and cleaned up for personal use by [CryptoGrampy](https://github.com/CryptoGrampy/mymonero-web-js) - the web wallet client
 
 
-## Setup
+## Running
 
-Works on Linux, built on Ubuntu 22.
+The default compose stack pulls in images which were pre-built for ease of use. See the `development` section to build everything locally.
+
+Otherwise, clone the repo and run: `docker-compose up -d`
+
+- `lwsadmin` will be available at http://127.0.0.1:5000
+- `mymonero-web` will be available at http://127.0.0.1:9110
+- `monero-lws` will be available at http://127.0.0.1:8080 (rpc) and http://127.0.0.1:8081 (admin)
+- `monerod` will be available at :18080 (p2p), :18081 (unrestricted rpc), :18082 (zmq), and :18089 (restricted rpc)
+
+
+## Development
+
+Built on Ubuntu 22.04
 
 1. Install packages
 2. Clone the repo
@@ -32,7 +44,7 @@ git clone https://github.com/lalanza808/docker-monero-node
 git clone https://github.com/CryptoGrampy/mymonero-web-js
 
 # 4
-docker-compose build
+docker-compose build # builds images from the nested repos
 
 # 5
 docker-compose up -d

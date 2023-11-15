@@ -20,16 +20,21 @@ def create_app():
     
     @app.before_serving
     async def startup():
-        from lws.routes import auth, wallet, meta
+        from lws.routes import auth, wallet, meta, htmx
         from lws import filters
         app.register_blueprint(filters.bp)
         app.register_blueprint(auth.bp)
         app.register_blueprint(meta.bp)
         app.register_blueprint(wallet.bp)
+        app.register_blueprint(htmx.bp)
 
     @app.errorhandler(Unauthorized)
     async def redirect_to_login(*_):
-        return redirect(f"/login?next={request.path}")
+        if request.path == "/":
+            return redirect(f"/login?next={request.path}")
+        else:
+            return f"<p>you need to authenticate first</p><a href=\"/login\">login</a>"
+    
     return app
     
 bcrypt = Bcrypt(create_app())

@@ -1,0 +1,26 @@
+<div id="create_wallet">
+    <form hx-target="#show_wallets" hx-post="{{ url_for('wallet.add') }}" action="#">
+        <label for="label">Label</label>
+        <input type="text" name="label" />
+        <p>Seed: <span class="key">{{ seed }}</span></p>
+        <p>Public Address: <span class="key">{{ address }}</span></p>
+        <p>Public Spend Key: <span class="key">{{ psk }}</span></p>
+        <p>Public View Key: <span class="key">{{ pvk }}</span></p>
+        <p>Secret Spend Key: <span class="key">{{ ssk }}</span></p>
+        <p>Secret View Key: <span class="key">{{ svk }}</span></p>
+        <input type="text" name="address" value="{{ address }}" class="hidden" />
+        <input type="text" name="view_key" value="{{ svk }}" class="hidden" />
+        <input type="number" name="restore_height" value="-1" class="hidden" />
+        <button type="submit">Create</button>
+        <button onclick="cancelCreate()">Cancel</button>
+    </form>
+    <script>
+        function cancelCreate() {
+            document.getElementById("create_wallet").innerHTML = "";
+        }
+
+        document.getElementById("create_wallet").addEventListener("submit", function() {
+            cancelCreate();
+        })
+    </script>
+</div>

@@ -1,68 +1,43 @@
 {% extends 'includes/base.html' %}
 
 {% block content %}
-<h1>LWS Web Admin</h1>
+
+<h1>Monero Lightwallet Server</h1>
 <p>LWS Admin: {{ config.LWS_ADMIN_URL }}</p>
 <p>LWS RPC: {{ config.LWS_URL }}</p>
-<h3>Accounts</h3>
-<a href="/wallet/add" class="button outline primary">Add Wallet</a>
-<table class="striped">
-  <thead>
-    <tr>
-      <th>Status</th>
-      <th>Action</th>
-      <th>Address</th>
-      <th>Height</th>
-    </tr>
-  </thead>
-  <tbody>
-    
-    {% for status in accounts %}
-      {% for account in accounts[status] %}
-      <tr>
-        <td>
-          <span class="tag text-white {% if status == 'active' %}bg-success{% else %}bg-error{% endif %}">
-            {{ status | upper }}
-          </span>
-        </td>
-        <td>
-          {% if status == 'active' %}
-            <a href="/wallet/{{ account['address'] }}/disable" class="">disable</a>
-          {% else %}
-            <a href="/wallet/{{ account['address'] }}/enable" class="">enable</a>
-          {% endif %}
-        </td>
-        <td>{{ account['address'] | shorten }}</td>
-        <td>
-          
-          <form method="get" action="{{ url_for('wallet.rescan') }}">
-            {{ account['scan_height'] }}
-            <input type="integer" name="height" style="width: 5em; display: inline;" />
-            <input type="hidden" name="address" value="{{ account['address'] }}" />
-            <button type="submit">Rescan</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    {% endfor %}
+<p>Monero Web Wallet: <a href="{{ config.MYMONERO_URL }}" target="_blank">{{ config.MYMONERO_URL }}</a></p>
 
-    {% for status in requests %}
-      {% for request in requests[status] %}
-      <tr>
-        <td>
-          <span class="tag text-white bg-dark">
-            PENDING
-          </span>
-        </td>
-        <td>
-          <a href="/wallet/{{ request['address'] }}/accept" class="">approve</a> | 
-          <a href="/wallet/{{ request['address'] }}/reject" class="">reject</a>
-        </td>
-        <td>{{ request['address'] | shorten }}</td>
-        <td>{{ request['start_height'] }}</td>
-      </tr>
-      {% endfor %}
-    {% endfor %}
-  </tbody>
-</table>
+<div>
+  <a hx-get="/htmx/import_wallet" hx-target="#walletForm" class="button primary outline">Import Wallet</a>
+  <a hx-get="/htmx/create_wallet" hx-target="#walletForm" class="button primary">Create Wallet</a>
+  <p id="walletForm" style="margin: 2em 0 2em 0"></p>
+</div>
+
+<div>
+  <h3>Accounts</h3>
+  <p>
+    The below Monero accounts are stored in LWS;
+    only active accounts will be synced. 
+    Accounts created in the web wallet must be approved here before use.
+  </p>
+  <div hx-get="/htmx/show_wallets" hx-target="#show_wallets" class="button outline" hx-indicator="#refresh_loader" onclick="handleRefresh()">
+    Refresh
+    <i class="fa-solid fa-rotate-right indicator" id="refresh_loader"></i>
+  </div>
+  <div hx-trigger="load" hx-get="/htmx/show_wallets" id="show_wallets" onload=""></div>
+</div>
+
+<script>
+  function handleRefresh() {
+    const show_wallets = document.getElementById('show_wallets'); 
+    const loader = document.getElementById('refresh_loader');
+    loader.classList.add('fa-spin');
+    show_wallets.classList.add('showFade');
+    setTimeout(function() {
+      show_wallets.classList.remove('showFade');
+      loader.classList.remove('fa-spin');
+    }, 2000)
+  }
+</script>
+
 {% endblock %}

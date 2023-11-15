@@ -18,13 +18,25 @@ from lws import config
 # webhook_delete_uuid: {"event_ids": [...]}
 # webhook_list: {}
 
-
 class LWS:
     def __init__(self):
         pass
 
     def init(self, admin_key):
         self.admin_key = admin_key
+    
+    def _init(self):
+        self.admin_key = User.select().first().view_key
+    
+    def get_address_info(self, address, view_key):
+        endpoint = f"{config.LWS_URL}/get_address_info"
+        data = {
+            "address": address,
+            "view_key": view_key
+        }
+        r = requests.post(endpoint, json=data, timeout=5)
+        r.raise_for_status()
+        return r.json()
     
     def get_wallet(self, address: str) -> dict:
         try:
@@ -108,9 +120,8 @@ class LWS:
             print(f"Failed to add wallet {address}: {e}")
             return {}
         
-    def modify_wallet(self, address: str, active: bool) -> dict:
+    def modify_wallet(self, address: str, status: str) -> dict:
         endpoint = f"{config.LWS_ADMIN_URL}/modify_account_status"
-        status = "active" if active else "inactive"
         data = {
             "auth": self.admin_key, 
             "params": {

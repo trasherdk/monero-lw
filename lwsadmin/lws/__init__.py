@@ -1,0 +1,1 @@
+from lws.factory import create_app
